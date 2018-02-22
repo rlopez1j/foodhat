@@ -18,6 +18,7 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
     <script src="client.js"></script>
+    <script type="text/javascript" src="google_api.js"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.cyan-light_blue.min.css">
@@ -46,7 +47,7 @@
               <i class="material-icons">search</i>
             </label>
             <div class="mdl-textfield__expandable-holder">
-              <input class="mdl-textfield__input" type="text" id="search">
+              <input class="mdl-textfield__input" id="search">
               <label class="mdl-textfield__label" for="search">Enter your query...</label>
             </div>
           </div>
@@ -97,7 +98,18 @@
           <div class="row">
 
             <div class="col-md-3"></div>
-
+            <div class="col-md-3">
+              <div class="card">
+                <div class="card-header">
+                  Restaurants
+                </div>
+                <div class="card-body">
+                  <ul>
+                    <li class="rest"></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
             <div class="col-md-3">
               <div class="card">
                 <div class="card-header">
@@ -169,19 +181,19 @@
         </defs>
       </svg>
     <script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
-
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAdHUtt8JiiZYx2cyHoXwkt1ndAIgtMTag&libraries=places"></script>
 
   </body>
 
 
-  <body>
+  <!-- <body>
 
 <h1>Header</h1>
 
 
 
 
-  </body>
+  </body> -->
 
 
 
