@@ -1,26 +1,15 @@
-const http = require('http');
-const socket =  require('socket.io')
-const express = require('express')
-const hostname = '127.0.0.1';
-const port = 3000;
+var express = require('express');
+var socket = require('socket.io');
 
 var app = express()
+var server = app.listen(3000, function(){
+	console.log('listening on port 3000...')
+});
 
 app.use(express.static('public'));
 
-const server = http.createServer((req, res) => {
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'text/plain');
-  res.end('Hello\n');
-});
-
-server.listen(port, hostname, () => {
-  console.log('server running at http://${hostname}:${port}/');
-});
-
 var io = socket(server)
-
 io.on('connection', (socket) =>{
-  // io stuff here
-  console.log('socket.io connection!')
-})
+  // only comes out when we have contacted the client too
+	console.log('made socket connection', socket.id)
+});
