@@ -1,0 +1,24 @@
+{
+  "name": "foodhat",
+  "version": "1.0.0",
+  "description": "foodhat being made",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rlopez1j/foodhat.git"
+  },
+  "author": "Roman Lopez, Samuel Perales",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rlopez1j/foodhat/issues"
+  },
+  "homepage": "https://github.com/rlopez1j/foodhat#readme",
+  "dependencies": {
+    "express": "^4.16.2",
+    "mongodb": "^3.0.2",
+    "socket.io": "^2.0.4"
+  }
+}
