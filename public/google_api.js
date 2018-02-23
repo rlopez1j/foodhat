@@ -1,6 +1,7 @@
 // global variables
 var search_value
 var geolocation
+var restaurant_list = []
 
 $(document).ready(function(){
     if(navigator.geolocation){
@@ -27,7 +28,7 @@ $(document).ready(function(){
     function make_google_search(search){
       var options = {
         location: geolocation,
-        radius: '8046.72', // 5 mile radius
+        radius: '8046.72', // 5 mile radius (still deciding radius size)
         name: search_value, // updates as user types
         type: ['restaurant'] // duh
       };
@@ -44,10 +45,24 @@ $(document).ready(function(){
                   2. restaurant name
                   3. restaurant addr
                   4. distance (maybe)
-                  5. restrict to like 5 results
-                  6. button to 'select' restaurant */
-          console.log(restaurant_data); // restaurant_data is json file
+                  6. if open
+              TODO:
+                1. create list with top 5 suggestions
+                2. format with ui
+                3. call $('#search').autocomplete with created list
+                4. update list each time this function runs with new suggestions
+              */
+              if(i <= 5){ // check for undefine variables
+                restaurant_list[i] = [ // makle this longer
+                  restaurant_data.photos[0], // need to check this
+                  restaurant_data.name,
+                  restaurant_data.vicinity,
+                  restaurant_data.opening_hours.open_now // find error with this attr
+                ]
+              }
+              console.log(restaurant_data); // restaurant_data is json file
         })
+        console.log(restaurant_list);
       }
     }
 })
