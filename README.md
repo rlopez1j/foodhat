@@ -17,10 +17,15 @@ TODO:
   -selecting restaurant
   -displaying 'winning' restaurant
 
-Bugs & Issues:
+Bugs:
 
-b0: adblock extensions stop google places api from working
-b1: api is currently unrestricted and viewable client-side
+b.0: adblock extensions stop google places api from working
+b.1: api is currently unrestricted and viewable client-side
+
+
+Issues:
+
+i.0: autocomplete does not work
 
 HOWTO:FIX:
 

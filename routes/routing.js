@@ -1,5 +1,4 @@
-var express = require('express')
-var router = express.Router()
+var router = require('express').Router()
 
 /*
    This will handle all routing in the webapp
@@ -7,10 +6,10 @@ var router = express.Router()
    This will handle some mongodb stuff too
 */
 
-router.get('/', function(req, res){
+router.get('/', (req, res)=>{
   res.send('home')
 })
-router.get('*', function(req, res){
+router.get('*', (req, res)=>{
   res.status(404).send('page not found!')
 })
 
