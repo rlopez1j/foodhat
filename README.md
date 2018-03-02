@@ -18,6 +18,7 @@ TODO:
   -displaying 'winning' restaurant
 
 Bugs & Issues:
+
 b0: adblock extensions stop google places api from working
 b1: api is currently unrestricted and viewable client-side
 
@@ -26,4 +27,5 @@ HOWTO:FIX:
 b1: create env-var for api key and store it there
 
 PROGRESS:
+
 routing has been setup
