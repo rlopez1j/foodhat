@@ -1,4 +1,4 @@
-var express = require('express').Router()
+var router = require('express').Router()
 
 /*
   this contains landing pages that wont ask for user input, etc
