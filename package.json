@@ -17,9 +17,11 @@
   },
   "homepage": "https://github.com/rlopez1j/foodhat#readme",
   "dependencies": {
+    "ejs": "^2.5.7",
     "express": "^4.16.2",
     "mongodb": "^3.0.2",
     "mongoose": "^5.0.7",
+    "npm": "^5.7.1",
     "passport": "^0.4.0",
     "socket.io": "^2.0.4"
   }

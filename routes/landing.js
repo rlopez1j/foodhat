@@ -1,8 +1,11 @@
-var router = require('express').Router()
+const router = require('express').Router()
 
 /*
   this contains landing pages that wont ask for user input, etc
 */
+router.get('/', (req, res)=>{
+  res.render('index')
+})
 router.get('/about', (req, res)=>{
   // this and the latter res.sends will render pages
   res.send('food hat is a webapp')

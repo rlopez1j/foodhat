@@ -1,4 +1,4 @@
-var router = require('express').Router()
+const router = require('express').Router()
 
 /*
    This will handle all routing in the webapp
