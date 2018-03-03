@@ -6,7 +6,7 @@ const landing_pages = require('./routes/landing');
 const google_oauth = require('./routes/google_oauth')
 
 var app = express();
-app.use(express.static('public')); // sets location of pwd
+app.use(express.static('public')); // sets pwd
 app.set('view engine', 'ejs')
 
 // routing
