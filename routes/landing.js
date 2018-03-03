@@ -11,7 +11,7 @@ router.get('/about', (req, res)=>{
   res.send('food hat is a webapp')
 })
 router.get('/contact', (req, res)=>{
-  res.send('hit us up @deathvoxxxx')
+  res.send('hit us up @deathvoxxxx & @samustashe')
 })
 router.get('*', (req, res)=>{
   res.status(404).send('page not found!')
