@@ -11,9 +11,9 @@ app.use(express.static('public')); // sets pwd
 app.set('view engine', 'ejs');
 
 // routing
-app.use('/home', routes);
+app.use('/home', routes); // will not need this either
 app.use('/', landing_pages); // probably won't need this in the future
-app.use('google/', google_oauth);
+app.use('api/google/', google_oauth); // might need to fix this in the future
 
 // starts the node server
 var server = app.listen(3000, function(){

@@ -1,4 +1,4 @@
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, Title } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule} from '@angular/router'
 
@@ -10,11 +10,11 @@ import { SignupComponent } from './signup/signup.component';
 import { NotfoundComponent } from './notfound/notfound.component';
 
 const URI_ROUTES: Routes = [
-  {path: 'contact-us', component: ContactComponent},
-  {path: 'home', component: HomeComponent},
-  {path: 'about', component: AboutComponent},
-  {path: '', component: SignupComponent },
-  {path: '**', component: NotfoundComponent}
+  {path: 'contact-us', component: ContactComponent, data: {title: 'Contact Us'}},
+  {path: 'home', component: HomeComponent, data: {title: 'Home'}},
+  {path: 'about-us', component: AboutComponent, data:{title: 'About Us'}},
+  {path: '', component: SignupComponent,  data: {title: 'Food Hat'}},
+  {path: '**', component: NotfoundComponent, data: {title: '404: Page Not Found!'}}
 ];
 
 @NgModule({
