@@ -1,6 +1,7 @@
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule} from '@angular/router'
+import { Routes, RouterModule} from '@angular/router';
+import { HttpModule, Http} from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -8,6 +9,7 @@ import { AboutComponent } from './about/about.component';
 import { ContactComponent } from './contact/contact.component';
 import { SignupComponent } from './signup/signup.component';
 import { NotfoundComponent } from './notfound/notfound.component';
+import {ApiService} from './api.service';
 
 const URI_ROUTES: Routes = [
   {path: 'contact-us', component: ContactComponent, data: {title: 'Contact Us'}},
@@ -28,9 +30,10 @@ const URI_ROUTES: Routes = [
   ],
   imports: [
     BrowserModule,
-    RouterModule.forRoot(URI_ROUTES, {enableTracing: false})
+    RouterModule.forRoot(URI_ROUTES, {enableTracing: false}),
+    HttpModule
   ],
-  providers: [],
+  providers: [ApiService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

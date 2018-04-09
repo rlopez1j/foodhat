@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/rlopez1j/foodhat#readme",
   "dependencies": {
+    "cors": "^2.8.4",
     "ejs": "^2.5.7",
     "express": "^4.16.2",
     "mongodb": "^3.0.2",
