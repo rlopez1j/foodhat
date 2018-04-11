@@ -7,7 +7,7 @@ passport.use(
     // options for google
     clientID: GOOGLE.CLIENT_ID,
     clientSecret: GOOGLE.CLIENT_SECRET,
-    callbackURL: '/api/google/callback'
+    callbackURL: '/api/google/redirect'
   }, ()=>{
       // passport callback
   })

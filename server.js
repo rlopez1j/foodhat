@@ -3,9 +3,9 @@ const socket = require('socket.io');
 const ejs = require('ejs'); // not sure if i wanna keep using ejs
 const routes = require('./routes/routing');
 const landing_pages = require('./routes/landing');
-const google_oauth = require('./routes/google_oauth');
+const google = require('./routes/google');
 const cors = require('cors');
-const passport_setup = require('./passport/passport_setup');
+const passport_setup = require('./passport/passport_google');
 
 // setup the webapp
 var app = express();
@@ -18,7 +18,7 @@ app.use(cors({
 }));
 
 // routing
-app.use('/api/google', google_oauth);
+app.use('/api/google', google);
 
 // starts the node server
 var server = app.listen(3000, function(){

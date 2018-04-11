@@ -9,4 +9,8 @@ router.get('/logout', (req, red)=>{
   res.send('logged out')
 })
 
+router.get('/redirect', (req, res)=>{
+  res.send('google oauth works (somewhat)')
+})
+
 module.exports = router;
