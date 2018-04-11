@@ -5,6 +5,7 @@ const routes = require('./routes/routing');
 const landing_pages = require('./routes/landing');
 const google_oauth = require('./routes/google_oauth');
 const cors = require('cors');
+const passport_setup = require('./passport/passport_setup');
 
 // setup the webapp
 var app = express();

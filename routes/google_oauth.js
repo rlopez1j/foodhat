@@ -1,11 +1,12 @@
 const router = require('express').Router()
 const passport = require('passport') // don't need this yet
 
-router.post('/oauth/', (req, res)=>{
-  /*
-    this will eventually contain Passport.js stuff that will add users
-  */
-  res.send('api works')
+// log in with google
+router.get('/oauth', passport.authenticate('google', {scope: ['profile']}))
+
+// this will log out users
+router.get('/logout', (req, red)=>{
+  res.send('logged out')
 })
 
 module.exports = router;

@@ -6,14 +6,14 @@ import { ApiService } from '../api.service';
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.css']
 })
-export class SignupComponent implements OnInit {
+export class SignupComponent implements OnInit{
 
-  constructor(private api:ApiService) { }
+  constructor(private api:ApiService){ }
 
-  ngOnInit() {
+  ngOnInit(){
   }
 
   sign_up(/* this might have params later */){
-    this.api.add_user('user').subscribe((data) => console.log(data));
+    this.api.addUser('user').subscribe((data) => console.log(data));
   }
 }
