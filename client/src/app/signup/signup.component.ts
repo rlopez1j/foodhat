@@ -13,7 +13,8 @@ export class SignupComponent implements OnInit{
   ngOnInit(){
   }
 
-  sign_up(/* this might have params later */){
-    this.api.addUser('user').subscribe((data) => console.log(data));
+  sign_up(){
+    window.open('http://localhost:3000/api/google/oauth/',
+     '_blank', 'left=2500,top=200,height=520,width=520,status=yes,resizable=no');
   }
 }
