@@ -12,22 +12,28 @@ Code Style:
 8. parameter arguments will be separated by spaces: funcName(param1, param2), for(i; 0; i)
 9. use tabs.
 10. comments will have a space after comment operator: // comment here
+11. semicolons are not necessary. though if you use semicolons for a file, use them for the entirety of that file
 
 TODO:
-1. connect webapp to mongodb (using index.js)
+1. brainstorm ui
 
-2. brainstorm ui
+2. Continue with userOauth
 
-3. find which APIs to use (Googl Maps, Auth, etc)
-  Might do this to hide the API keys later on
-  https://hackernoon.com/how-to-use-environment-variables-keep-your-secret-keys-safe-secure-8b1a7877d69c
+3. Design database collections
 
-4. figure out "sessions" and userAuth
+4. Design user interactions
+  -who can add who to hats
+  -will there be usernames?
+  -privacy settings(?)
 
 5. Create the actual functionality of the app:
   -adding users to hat session
   -selecting restaurant
   -displaying 'winning' restaurant
+
+6. Finish backend API to start mobile app
+
+7. have a live MVP
 
 Bugs:
 
@@ -39,10 +45,7 @@ Issues:
 
 i.0: autocomplete does not work
 
-HOWTO:FIX:
-
-b1: create env-var for api key and store it there
-
 PROGRESS:
 
-routing has been setup
+firebase compatibility has been added. Database of choice is going to be FireStore. User authentication for Google is working.
+Angular has been connected to the backend. Homepage for logged in users will be created soon.
