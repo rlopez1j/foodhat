@@ -7,7 +7,7 @@ export class ApiService {
   constructor(private http: Http) { }
 
   // create user for application or log them in. Backend API handles which to do
-  addUser(user){
+  addUser(){
     var headers = new Headers()
     //headers.append('Content-Type', 'application/json');
     return this.http.get('http://localhost:3000/api/google/oauth/', 'user');

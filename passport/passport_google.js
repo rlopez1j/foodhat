@@ -4,6 +4,7 @@ const CLIENT = require('../api_keys/keys')
 const db = require('../firebase')
 
 passport.serializeUser((user, done)=>{
+  console.log(user);
   done(null, user.email)
 })
 
@@ -30,8 +31,7 @@ passport.use(
             email: profile.emails[0].value
           }
           new_user.photo = new_user.photo.slice(0, -6) // trim ?sz=50 from photo url
-
-          db.collection('users').doc(user.email).set(new_user).then(() =>{
+          db.collection('users').doc(new_user.email).set(new_user).then(() =>{
             console.log('added to database'); // not really needed :rolling-eyes-emoji
             done(null, new_user)
             // prompt user for username to be added later (front end does this)
