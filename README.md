@@ -17,7 +17,9 @@ Code Style:
 TODO:
 1. brainstorm ui
 
-2. Continue with userOauth
+2. Have user select username after signing up.
+  -Pull user history from FireStore to the home page.
+  -Check if user is signed in, and if so remove login option.
 
 3. Design database collections
 
@@ -34,6 +36,7 @@ TODO:
 6. Finish backend API to start mobile app
 
 7. have a live MVP
+
 
 Bugs:
 
