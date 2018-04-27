@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ApiService } from '../api.service';
 
 @Component({
   selector: 'app-home',
@@ -6,7 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit{
-  user = 'temp'; // this will come from a db object
+
+  user = []; // this will come from a db object
 
   public loadExternalJS(){
     let body = <HTMLDivElement> document.body;
@@ -18,9 +20,12 @@ export class HomeComponent implements OnInit{
     body.appendChild(script);
   }
 
-  constructor(){}
-
+  constructor(private api:ApiService){}
   ngOnInit(){
     this.loadExternalJS();
+    this.api.getProfile().subscribe((data) => this.user = data)
+
   }
+
+
 }

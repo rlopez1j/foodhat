@@ -10,8 +10,12 @@ router.get('/logout', (req, red)=>{
 })
 
 router.get('/redirect', passport.authenticate('google'), (req, res)=>{
-  //res.send(req.user)
   res.redirect('http://localhost:4200/home')
+  //res.send(req.user.data())
+})
+
+router.get('/profile', (req, res)=>{
+  res.send(req.user.data())
 })
 
 module.exports = router;

@@ -14,9 +14,6 @@ export class SignupComponent implements OnInit{
   }
 
   sign_up(){
-    var consent_screen = window.open('http://localhost:3000/api/google/oauth/',
-     '_blank', 'left=2500,top=200,height=520,width=520,status=yes,resizable=no');
-     
-
+    window.location.href = 'http://localhost:3000/api/google/oauth/'
   }
 }
