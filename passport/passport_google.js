@@ -26,6 +26,7 @@ passport.use(
         if(!user.exists){
           new_user = { // may put in diff file if i need it in other places
             id: profile.id,
+            username: null,
             name: profile.name.givenName,
             photo: profile.photos[0].value,
             email: profile.emails[0].value

@@ -14,4 +14,8 @@ export class ApiService {
   return this.http.get('api/google/profile')
     .map(res => res.json())
   }
+
+  checkUsername(username){
+    return this.http.get('api/crud/check-username', {params: {username: username}})
+  }
 }

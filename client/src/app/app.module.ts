@@ -10,12 +10,14 @@ import { ContactComponent } from './contact/contact.component';
 import { SignupComponent } from './signup/signup.component';
 import { NotfoundComponent } from './notfound/notfound.component';
 import {ApiService} from './api.service';
+import { CreateusernameComponent } from './createusername/createusername.component';
 
 const URI_ROUTES: Routes = [
   {path: 'contact-us', component: ContactComponent, data: {title: 'Contact Us'}},
   {path: 'home', component: HomeComponent, data: {title: 'Home'}},
   {path: 'about-us', component: AboutComponent, data:{title: 'About Us'}},
   {path: '', component: SignupComponent,  data: {title: 'Food Hat'}},
+  {path: 'create-username', component: CreateusernameComponent, data: {title: 'Create Username'}},
   {path: '**', component: NotfoundComponent, data: {title: '404: Page Not Found!'}}
 ];
 
@@ -26,7 +28,8 @@ const URI_ROUTES: Routes = [
     AboutComponent,
     ContactComponent,
     SignupComponent,
-    NotfoundComponent
+    NotfoundComponent,
+    CreateusernameComponent
   ],
   imports: [
     BrowserModule,
