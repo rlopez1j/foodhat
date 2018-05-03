@@ -18,12 +18,12 @@ export class CreateusernameComponent implements OnInit{
     // will do validation here before sending to api in
 
     // this checks if the username is avaiable
-    this.api.checkUsername(event.target.value).subscribe((username)=>
-        if(username.exists == true){
-          console.log('username not available')
-        } else{
+    this.api.checkUsername(event.target.value).subscribe((username)=>{
+        if(username.avaiable){
           console.log('username available')
-        }
+        } else{
+          console.log('username not available')
+        }}
     )
   }
 }
