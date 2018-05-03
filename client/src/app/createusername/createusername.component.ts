@@ -14,6 +14,15 @@ export class CreateusernameComponent implements OnInit{
 
   keyPress(event: any){
     console.log(event.target.value)
-    this.api.checkUsername(event.target.value).subscribe((data)=> console.log(data))
+    // will do validation here before sending to api
+
+    // this checks if the username is avaiable
+    this.api.checkUsername(event.target.value).subscribe((data)=>
+        if(data.exists == true){
+          console.log('username not available')
+        } else{
+          console.log('username available')
+        }
+    )
   }
 }
