@@ -11,7 +11,7 @@ export class ApiService {
   // create user for application or log them in. Backend API handles which to do
   getProfile(){
   var headers = new Headers()
-  return this.http.get('api/google/profile')
+  return this.http.get('api/crud/profile')
   .map(res => res.json())
   }
 

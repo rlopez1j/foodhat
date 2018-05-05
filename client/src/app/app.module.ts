@@ -11,13 +11,15 @@ import { SignupComponent } from './signup/signup.component';
 import { NotfoundComponent } from './notfound/notfound.component';
 import {ApiService} from './api.service';
 import { CreateusernameComponent } from './createusername/createusername.component';
+import { HomePageComponent } from './home-page/home-page.component';
 
-const URI_ROUTES: Routes = [
+const URI_ROUTES: Routes = [ // will need to modify routing once sessions are implemented
   {path: 'contact-us', component: ContactComponent, data: {title: 'Contact Us'}},
-  {path: 'home', component: HomeComponent, data: {title: 'Home'}},
+  {path: '', component: HomeComponent, data: {title: 'Home'}},
   {path: 'about-us', component: AboutComponent, data:{title: 'About Us'}},
-  {path: '', component: SignupComponent,  data: {title: 'Food Hat'}},
-  {path: 'create-username', component: CreateusernameComponent, data: {title: 'Create Username'}},
+  {path: 'signup', component: SignupComponent,  data: {title: 'Food Hat'}},
+  {path: '', component: CreateusernameComponent, data: {title: 'Create Username'}},
+  {path: '', component: HomePageComponent, data: {title: 'Home'}},
   {path: '**', component: NotfoundComponent, data: {title: '404: Page Not Found!'}}
 ];
 
@@ -29,7 +31,8 @@ const URI_ROUTES: Routes = [
     ContactComponent,
     SignupComponent,
     NotfoundComponent,
-    CreateusernameComponent
+    CreateusernameComponent,
+    HomePageComponent
   ],
   imports: [
     BrowserModule,

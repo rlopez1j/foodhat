@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewContainerRef,
+         ComponentFactoryResolver, ComponentRef, ComponentFactory } from '@angular/core';
+import { CreateusernameComponent } from '../createusername/createusername.component'
+import { HomePageComponent } from '../home-page/home-page.component'
+import { SignupComponent } from '../signup/signup.component'
 import { ApiService } from '../api.service';
 
 @Component({
@@ -8,22 +12,27 @@ import { ApiService } from '../api.service';
 })
 export class HomeComponent implements OnInit{
 
-  user = []; // this will come from a db object
+  componentRef: any;
+  @ViewChild('container', {read: ViewContainerRef}) entry: ViewContainerRef;
 
-  public loadExternalJS(){
-    let body = <HTMLDivElement> document.body;
-    let script = document.createElement('script');
-    script.innerHTML = '';
-    script.src = '../assets/js/client.js';
-    script.async = true;
-    script.defer = true;
-    body.appendChild(script);
-  }
-
-  constructor(private api:ApiService){}
+  constructor(private api:ApiService, private resolver: ComponentFactoryResolver){}
   ngOnInit(){
-    this.loadExternalJS();
-    this.api.getProfile().subscribe((data) => this.user = data)
+    this.entry.clear();
+    this.api.getProfile().subscribe((data)=>{
+      console.log(data)
+      if(data.signedOut){
+        const factory = this.resolver.resolveComponentFactory(SignupComponent);
+        this.componentRef = this.entry.createComponent(factory)
+      } else{
+          if(data.username == null){
+            const factory = this.resolver.resolveComponentFactory(CreateusernameComponent);
+            this.componentRef = this.entry.createComponent(factory)
+          } else{
+            const factory = this.resolver.resolveComponentFactory(HomePageComponent);
+            this.componentRef = this.entry.createComponent(factory)
+          }
+      }
+    })
 
   }
 
