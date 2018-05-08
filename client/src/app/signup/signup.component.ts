@@ -13,7 +13,7 @@ export class SignupComponent implements OnInit{
   ngOnInit(){
   }
 
-  sign_up(){
+  signUp(){
     window.location.href = 'http://localhost:3000/api/google/oauth/'
   }
 }
