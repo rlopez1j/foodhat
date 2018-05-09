@@ -22,6 +22,7 @@ const URI_ROUTES: Routes = [ // will need to modify routing once sessions are im
   {path: 'signup', component: SignupComponent,  data: {title: 'Food Hat'}},
   {path: 'create', component: CreateusernameComponent, data: {title: 'Create Username'}},
   {path: '', component: HomePageComponent, data: {title: 'Home'}},
+  {path: 'hat', component: HatComponent, data: {title: ''}},
   {path: '**', component: NotfoundComponent, data: {title: '404: Page Not Found!'}}
 ];
 

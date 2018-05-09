@@ -21,7 +21,7 @@ export class HomePageComponent implements OnInit {
 
   // connects to socket.io directly through angular
   private startSocket(){
-    this.entry.clear();
+    this.entry.clear()
     const factory = this.resolver.resolveComponentFactory(HatComponent);
     this.componentRef = this.entry.createComponent(factory)
   }
