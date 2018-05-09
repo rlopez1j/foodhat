@@ -1,7 +1,26 @@
 <div class="form-group col-md-4">
   <form class="form-group" action="index.html" method="post">
     <label for="username">Create Username</label>
-    <input type="text" class="form-control col-sm-4" (keyup)='keyPress($event)'>
-    <button type="button" class="btn btn-default"name="button">Accept</button>
+    <input type="text" class="form-control col-sm-4 {{valid_class}}" id="username" required minlength="3" maxlength="15" pattern="[a-zA-Z0-9|_]+"
+     [(ngModel)]="input" name="username" #username="ngModel"
+     [ngClass]="{'is-invalid': username.errors && (username.dirty || username.touched)}" (keyup)=searchName(username)>
+
+    <div *ngIf="username.errors && (username.dirty || username.touched)" class="invalid-feedback">
+      <div [hidden]="!username.errors.minlength">
+        Username must be at least 3 characters.
+      </div>
+      <div [hidden]="!username.errors.maxlength">
+        Username must be less than 15 characters.
+      </div>
+      <div class="" [hidden]="!username.errors.pattern">
+        Can only use: letters, numbers, and underscores
+      </div>
+    </div>
+    <div *ngIf="!valid" class="invalid-feedback">
+      <div [hidden]="valid">
+        Username not avaiable.
+      </div>
+    </div>
+      <button type="button" [hidden]='!valid || username.errors' class="btn btn-default"name="button">Accept</button>
   </form>
 </div>

@@ -2,6 +2,7 @@ import { BrowserModule, Title } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule} from '@angular/router';
 import { HttpModule, Http} from '@angular/http';
+import { FormsModule } from '@angular/forms'
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -18,7 +19,7 @@ const URI_ROUTES: Routes = [ // will need to modify routing once sessions are im
   {path: '', component: HomeComponent, data: {title: 'Home'}},
   {path: 'about-us', component: AboutComponent, data:{title: 'About Us'}},
   {path: 'signup', component: SignupComponent,  data: {title: 'Food Hat'}},
-  {path: '', component: CreateusernameComponent, data: {title: 'Create Username'}},
+  {path: 'create', component: CreateusernameComponent, data: {title: 'Create Username'}},
   {path: '', component: HomePageComponent, data: {title: 'Home'}},
   {path: '**', component: NotfoundComponent, data: {title: '404: Page Not Found!'}}
 ];
@@ -37,7 +38,8 @@ const URI_ROUTES: Routes = [ // will need to modify routing once sessions are im
   imports: [
     BrowserModule,
     RouterModule.forRoot(URI_ROUTES, {enableTracing: false}),
-    HttpModule
+    HttpModule,
+    FormsModule
   ],
   providers: [ApiService],
   bootstrap: [AppComponent]
