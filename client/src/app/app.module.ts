@@ -13,6 +13,7 @@ import { NotfoundComponent } from './notfound/notfound.component';
 import {ApiService} from './api.service';
 import { CreateusernameComponent } from './createusername/createusername.component';
 import { HomePageComponent } from './home-page/home-page.component';
+import { HatComponent } from './hat/hat.component';
 
 const URI_ROUTES: Routes = [ // will need to modify routing once sessions are implemented
   {path: 'contact-us', component: ContactComponent, data: {title: 'Contact Us'}},
@@ -33,7 +34,8 @@ const URI_ROUTES: Routes = [ // will need to modify routing once sessions are im
     SignupComponent,
     NotfoundComponent,
     CreateusernameComponent,
-    HomePageComponent
+    HomePageComponent,
+    HatComponent
   ],
   imports: [
     BrowserModule,
