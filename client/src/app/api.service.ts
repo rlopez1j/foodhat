@@ -4,9 +4,9 @@ import 'rxjs/add/operator/map';
 
 
 @Injectable()
-export class ApiService {
+export class ApiService{
 
-  constructor(private http: Http) { }
+  constructor(private http: Http){}
 
   // create user for application or log them in. Backend API handles which to do
   getProfile(){
@@ -18,5 +18,9 @@ export class ApiService {
   checkUsername(username){
     return this.http.get('api/crud/check-username', {params: {username: username}})
     .map(res => res.json())
+  }
+
+  createUsername(username){
+    return this.http.post('api/crud/create-username', {username: username})
   }
 }

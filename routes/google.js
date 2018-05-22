@@ -1,6 +1,5 @@
 const router = require('express').Router()
 const passport = require('passport') // don't need this yet
-const bodyParser = require('body-parser')
 
 // log in with google
 router.get('/oauth', passport.authenticate('google', {scope: ['profile', 'email']}))

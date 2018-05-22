@@ -21,6 +21,6 @@
         Username not avaiable.
       </div>
     </div>
-      <button type="button" [hidden]='!valid || username.errors' class="btn btn-default"name="button">Accept</button>
+      <button type="button" [hidden]='!valid || username.errors' class="btn btn-default" (click)="send(username)">Accept</button>
   </form>
 </div>

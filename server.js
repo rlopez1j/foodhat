@@ -2,17 +2,19 @@ const express = require('express');
 const socket = require('socket.io');
 const cors = require('cors');
 const passport = require('passport');
-const cookie = require('cookie-session')
+const cookie = require('cookie-session');
+const body_parser = require('body-parser');
 
 const routes = require('./routes/routing');
 const landing_pages = require('./routes/landing');
 const google = require('./routes/google');
-const crud = require('./routes/crud')
+const crud = require('./routes/crud');
 const passport_setup = require('./passport/passport_google');
-const KEYS = require('./api_keys/keys')
+const KEYS = require('./api_keys/keys');
 
 // setup the webapp
 var app = express();
+app.use(body_parser.json());
 app.use(express.static('public')); // sets pwd
 app.use(cookie({
 	maxAge: 30*60*60*1000, // 30 days in milliseconds
@@ -21,8 +23,8 @@ app.use(cookie({
 
 
 // initalize passport
-app.use(passport.initialize())
-app.use(passport.session())
+app.use(passport.initialize());
+app.use(passport.session());
 
 // use cors to allow the angular server to access the api
 app.use(cors({
@@ -47,5 +49,5 @@ io.on('connection', (socket) =>{
 	socket.on('disconnect', ()=>{
 		// handle case when a user leaves the app
 		console.log(socket.id+' has disconnected');
-	})
+	});
 });

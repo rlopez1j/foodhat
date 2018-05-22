@@ -9,8 +9,8 @@ import { ApiService } from '../api.service';
 })
 export class CreateusernameComponent implements OnInit{
   constructor(private api:ApiService){}
-  username;
-  input;
+  username; // change because it might be confusing
+  input; // change because it doesn't reflect what it actually is
   valid = true;
   valid_class = '';
   ngOnInit(){
@@ -33,6 +33,17 @@ export class CreateusernameComponent implements OnInit{
         })
     }
   }
+
+  send(username){
+    console.log(username.model)
+      this.api.createUsername(username.model).subscribe((success)=>{
+        console.log(success)
+        if(success){
+          window.location.href = '/'
+        }
+      })
+  }
+  /* MIGHT DELETE THIS */
   // will do validation here before sending to api in
   keyPress(){
     console.log(this.username)
