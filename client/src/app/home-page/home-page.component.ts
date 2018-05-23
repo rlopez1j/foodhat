@@ -1,7 +1,8 @@
 import { Component, OnInit, ViewChild, ViewContainerRef,
-         ComponentFactoryResolver, ComponentRef, ComponentFactory } from '@angular/core';
-import { ApiService } from '../api.service';
-import { HatComponent } from '../hat/hat.component';
+         ComponentFactoryResolver, ComponentRef, ComponentFactory } from '@angular/core'
+import { ActivatedRoute, Router } from '@angular/router'
+import { ApiService } from '../api.service'
+import { HatComponent } from '../hat/hat.component'
 
 @Component({
   selector: 'app-home-page',
@@ -14,10 +15,16 @@ export class HomePageComponent implements OnInit {
     componentRef: any;
     @ViewChild('container', {read: ViewContainerRef}) entry: ViewContainerRef;
 
-  constructor(private api:ApiService, private resolver: ComponentFactoryResolver){}
+  constructor(private api:ApiService, private resolver: ComponentFactoryResolver,
+     private route: ActivatedRoute, private router: Router){}
+
   ngOnInit(){
-    //this.api.getProfile().subscribe((data)=>{console.log(data); this.user = data}) // more stuff will be added later
     this.user = this.api.getUserData()
+    this.route.queryParams.subscribe(params=>{
+      if(params.room){
+        this.startSocket()
+      }
+    })
   }
 
   // connects to socket.io directly through angular

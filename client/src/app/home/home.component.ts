@@ -24,17 +24,16 @@ export class HomeComponent implements OnInit{
         const factory = this.resolver.resolveComponentFactory(SignupComponent)
         this.componentRef = this.entry.createComponent(factory)
       } else{
-          if(data.username == null){
-            const factory = this.resolver.resolveComponentFactory(CreateusernameComponent)
-            this.componentRef = this.entry.createComponent(factory)
-          } else{
-            this.api.changeUserData(data)
-            const factory = this.resolver.resolveComponentFactory(HomePageComponent)
-            this.componentRef = this.entry.createComponent(factory)
-          }
+        if(data.username == null){
+          const factory = this.resolver.resolveComponentFactory(CreateusernameComponent)
+          this.componentRef = this.entry.createComponent(factory)
+        } else{
+          this.api.changeUserData(data)
+          const factory = this.resolver.resolveComponentFactory(HomePageComponent)
+          this.componentRef = this.entry.createComponent(factory)
+        }
       }
     })
-
   }
 
 

@@ -10,7 +10,7 @@ export class ApiService{
 
   constructor(private http: Http){}
   // creates an observable to avoid having to call to api multiple times for user-nfo
-  private user = []
+  private user = null
 
   public changeUserData(data){
     this.user = data
