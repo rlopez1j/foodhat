@@ -10,7 +10,7 @@ import { AboutComponent } from './about/about.component';
 import { ContactComponent } from './contact/contact.component';
 import { SignupComponent } from './signup/signup.component';
 import { NotfoundComponent } from './notfound/notfound.component';
-import {ApiService} from './api.service';
+import { ApiService } from './api.service';
 import { CreateusernameComponent } from './createusername/createusername.component';
 import { HomePageComponent } from './home-page/home-page.component';
 import { HatComponent } from './hat/hat.component';

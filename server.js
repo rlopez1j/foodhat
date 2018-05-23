@@ -42,10 +42,17 @@ var server = app.listen(3000, function(){
 
 // initializes socket.io
 var io = socket(server);
+var room = null
 io.on('connection', (socket) =>{
   // only comes out when we have contacted the client too
 	console.log('made socket connection', socket.id);
 
+	// connect to a room
+	socket.on('room', (client)=>{
+		room = client
+		socket.join(room)
+		io.sockets.in(room).emit('message', 'in room '+room) // for debugging
+	})
 	socket.on('disconnect', ()=>{
 		// handle case when a user leaves the app
 		console.log(socket.id+' has disconnected');

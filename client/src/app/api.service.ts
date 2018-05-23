@@ -1,12 +1,23 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject'
 import 'rxjs/add/operator/map';
+
 
 
 @Injectable()
 export class ApiService{
 
   constructor(private http: Http){}
+  // creates an observable to avoid having to call to api multiple times for user-nfo
+  private user = []
+
+  public changeUserData(data){
+    this.user = data
+  }
+  public getUserData(){
+    return this.user
+  }
 
   // create user for application or log them in. Backend API handles which to do
   getProfile(){
