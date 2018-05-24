@@ -32,7 +32,6 @@ export class HatComponent implements OnInit{
         this.joinRoom(params.room)
       }
     })
-
     this.socket.on('user-data', (data)=>{
       console.log(data)
     })
@@ -44,9 +43,9 @@ export class HatComponent implements OnInit{
     this.socket.on('lobby', (lobby)=>{
       console.log('lobby:', lobby)
     })
+  }
 
-    private addToHat(restaurant){
-      this.socket.emit('add-to-hat', restaurant)
-    }
+  private addToHat(restaurant){
+    this.socket.emit('add-to-hat', restaurant)
   }
 }
