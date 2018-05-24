@@ -31,16 +31,21 @@ passport.use(
             photo: profile.photos[0].value,
             email: profile.emails[0].value
           }
+          friends = {
+            friend_requests: [null],
+            friends_list: [null],
+            pending_requests: [null]
+          }
           new_user.photo = new_user.photo.slice(0, -6) // trim ?sz=50 from photo url
           db.collection('users').doc(new_user.email).set(new_user).then(() =>{
-            console.log('added to database'); // not really needed :rolling-eyes-emoji
-            done(null, new_user)
-            // prompt user for username to be added later (front end does this)
+            db.collection('friends').doc(new_user.email).set(friends).then(() =>{
+              console.log('added to database'); // not really needed :rolling-eyes-emoji
+              done(null, new_user)
+            })
           })
         } else{
           console.log('user exists');
           done(null, user.data())
-            // can redirect to home-page
         }
       })
   })

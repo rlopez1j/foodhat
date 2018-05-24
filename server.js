@@ -43,6 +43,7 @@ var server = app.listen(3000, function(){
 // initializes socket.io
 var io = socket(server);
 var room = null
+lobby = {}
 io.on('connection', (socket) =>{
   // only comes out when we have contacted the client too
 	console.log('made socket connection', socket.id);
@@ -51,8 +52,23 @@ io.on('connection', (socket) =>{
 	socket.on('room', (client)=>{
 		room = client
 		socket.join(room)
-		io.sockets.in(room).emit('message', 'in room '+room) // for debugging
 	})
+
+	socket.on('join', (user)=>{
+		user_data = {
+			name: user.name,
+			username: user.username,
+			photo: user.photo
+		}
+		lobby[user_data.username] = user_data
+		io.sockets.in(room).emit('user-data', user_data) // sends user info to client for ui
+		io.sockets.to(socket.id).emit('lobby', lobby)
+	})
+
+	socket.on('add-to-hat', (restaurant)=>{
+		socket.to(room).emit('choice', restaurant)
+	})
+
 	socket.on('disconnect', ()=>{
 		// handle case when a user leaves the app
 		console.log(socket.id+' has disconnected');

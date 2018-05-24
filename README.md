@@ -19,19 +19,20 @@ TODO:
 
 2. Have user select username after signing up.
   -Pull user history from FireStore to the home page.
-  -Check if user is signed in, and if so remove login option.
 
-3. Design database collections
+3. Work on Socket.IO functionality
 
 4. Design user interactions
   -who can add who to hats
-  -will there be usernames?
   -privacy settings(?)
 
 5. Create the actual functionality of the app:
   -adding users to hat session
   -selecting restaurant
   -displaying 'winning' restaurant
+
+6. Work on notifications
+   -requires deployment
 
 6. Finish backend API to start mobile app
 
@@ -41,6 +42,7 @@ TODO:
 Bugs:
 
 b.0: adblock extensions stop google places api from working
+
 b.1: api is currently unrestricted and viewable client-side
 
 

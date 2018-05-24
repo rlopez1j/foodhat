@@ -5,6 +5,10 @@
     </div>
     <div class="card-body col-md-auto">
       <div class="card-text text-center">
+        <input type="text" #input>
+        <button type="button" class="btn btn-default" (click)='addToHat(input.value)'>Add</button>
+      </div>
+      <div class="card-text text-center">
         angular text here
       </div>
     </div>

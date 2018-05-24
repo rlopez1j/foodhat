@@ -21,9 +21,8 @@ export class ApiService{
 
   // create user for application or log them in. Backend API handles which to do
   getProfile(){
-  var headers = new Headers()
-  return this.http.get('api/crud/profile')
-  .map(res => res.json())
+    return this.http.get('api/crud/profile')
+    .map(res => res.json())
   }
 
   checkUsername(username){
@@ -33,5 +32,16 @@ export class ApiService{
 
   createUsername(username){
     return this.http.post('api/crud/create-username', {username: username})
+    .map(res => res.json())
+  }
+
+  getHistory(){
+    return this.http.get('api/crud/get-history')
+    .map(res => res.json())
+  }
+
+  getFriendsList(){
+    return this.http.get('api/crud/get-friends-list')
+    .map(res => res.json())
   }
 }

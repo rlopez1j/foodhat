@@ -31,6 +31,45 @@ router.get('/check-username', (req, res)=>{
   })
 })
 
+router.get('/get-history', (req, res)=>{
+  history_list = {}
+  n = 0
+  db.collection('history').where('participants.'+req.user.data().username, '==', true)
+  .get().then(history =>{
+    history.forEach((doc)=>{
+      history_list[n] = doc.data()
+      n++
+    })
+    res.send(history_list)
+  }
+
+  )
+})
+
+router.get('/get-friends-list', (req, res)=>{
+  list = {}
+  n = 0
+  db.collection('friends').doc(req.user.data().email)
+  .get().then(friends =>{
+      friends.data().friends_list.forEach((friend)=>{
+        db.collection('users').where('username', '==', friend)
+        .get().then((info)=>{
+          info.forEach((friend_info)=>{
+            list[n] = {
+              username: friend_info.data().username,
+              name: friend_info.data().name,
+              photo: friend_info.data().photo
+            }
+        })
+        n++
+        if(friends.data().friends_list.length == n){ // I am not sure why this is the only way this works
+          res.send(list)
+        }
+      })
+    })
+  })
+})
+
 router.post('/create-username', (req, res)=>{
   user = req.user.data() // gets user data from the session cookie
 
