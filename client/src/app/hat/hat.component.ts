@@ -14,6 +14,7 @@ export class HatComponent implements OnInit{
   user = null
   room = null
   socket = null
+  lobby = []
 
   // Google Maps API variables
   location = null
@@ -52,6 +53,8 @@ export class HatComponent implements OnInit{
     // socket.io event handlers
     this.socket.on('user-data', (data)=>{
       console.log(data)
+      this.lobby[this.lobby.length] = data
+      console.log("new user", this.lobby)
     })
 
     this.socket.on('choice', (choice)=>{
@@ -59,7 +62,14 @@ export class HatComponent implements OnInit{
     })
 
     this.socket.on('lobby', (lobby)=>{
-      console.log('lobby:', lobby)
+      this.lobby = lobby
+      console.log('lobby:', this.lobby)
+    })
+
+    this.socket.on('update-lobby', (new_lobby)=>{
+      console.log('lobby from io:', new_lobby)
+      this.lobby = new_lobby
+      console.log('udpated lobby: ', this.lobby)
     })
   }
 

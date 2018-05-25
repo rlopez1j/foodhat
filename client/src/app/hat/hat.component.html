@@ -4,6 +4,13 @@
       <h2 class="card-title text-center">Hat</h2>
     </div>
     <div class="card-body col-md-auto">
+      <div class="card text text-center">
+        <div class="row">
+          <div class="col-sm" *ngFor="let friend of lobby">
+            {{friend.name}}
+          </div>
+        </div>
+      </div>
       <div class="card-text text-center">
         <input type="text" #input [(ngModel)]="search_term" (ngModelChange)="searchGoogle()">
         <button type="button" class="btn btn-default" (click)='addToHat(input.value)'>Add</button>

@@ -42,8 +42,12 @@ var server = app.listen(3000, function(){
 
 // initializes socket.io
 var io = socket(server);
+
+// socket io variables
 var room = null
-lobby = {}
+var lobby = []
+this_user = null
+
 io.on('connection', (socket) =>{
   // only comes out when we have contacted the client too
 	console.log('made socket connection', socket.id);
@@ -60,7 +64,9 @@ io.on('connection', (socket) =>{
 			username: user.username,
 			photo: user.photo
 		}
-		lobby[user_data.username] = user_data
+		this_user = lobby.length
+		lobby[lobby.length] = user_data
+		console.log('this user: ', this_user);
 		io.sockets.in(room).emit('user-data', user_data) // sends user info to client for ui
 		io.sockets.to(socket.id).emit('lobby', lobby)
 	})
@@ -72,5 +78,12 @@ io.on('connection', (socket) =>{
 	socket.on('disconnect', ()=>{
 		// handle case when a user leaves the app
 		console.log(socket.id+' has disconnected');
+		// updates the lobby of the users still connected:
+		console.log('current lobby: ', lobby);
+		console.log('user gone: ', this_user);
+		console.log('to delete: ', lobby[this_user]);
+		lobby.splice(this_user, 1)
+		console.log(lobby);
+		io.sockets.in(room).emit('update-lobby', lobby)
 	});
 });
