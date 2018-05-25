@@ -45,7 +45,7 @@ var io = socket(server);
 
 // socket io variables
 var room = null
-var lobby = []
+var lobby = new Map()
 this_user = null
 
 io.on('connection', (socket) =>{
@@ -65,25 +65,21 @@ io.on('connection', (socket) =>{
 			photo: user.photo
 		}
 		this_user = lobby.length
-		lobby[lobby.length] = user_data
-		console.log('this user: ', this_user);
-		io.sockets.in(room).emit('user-data', user_data) // sends user info to client for ui
-		io.sockets.to(socket.id).emit('lobby', lobby)
+		lobby.set(socket.id, user_data) // updates the lobby
+
+		io.sockets.in(room).emit('user-data', user_data, socket.id) // sends user info to client for ui
+		io.sockets.to(socket.id).emit('lobby', Array.from(lobby)) // converts to array bc socket.io cant transcribe maps
 	})
 
 	socket.on('add-to-hat', (restaurant)=>{
 		socket.to(room).emit('choice', restaurant)
 	})
 
+	// handle case when a user leaves the app
 	socket.on('disconnect', ()=>{
-		// handle case when a user leaves the app
 		console.log(socket.id+' has disconnected');
-		// updates the lobby of the users still connected:
-		console.log('current lobby: ', lobby);
-		console.log('user gone: ', this_user);
-		console.log('to delete: ', lobby[this_user]);
-		lobby.splice(this_user, 1)
-		console.log(lobby);
-		io.sockets.in(room).emit('update-lobby', lobby)
+
+		lobby.delete(socket.id) // best way to remove the disconnected user from the lobby
+		io.sockets.in(room).emit('update-lobby', Array.from(lobby)) // same as line 71
 	});
 });
