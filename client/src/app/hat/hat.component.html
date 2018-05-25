@@ -5,7 +5,7 @@
     </div>
     <div class="card-body col-md-auto">
       <div class="card-text text-center">
-        <input type="text" #input>
+        <input type="text" #input [(ngModel)]="search_term" (ngModelChange)="searchGoogle()">
         <button type="button" class="btn btn-default" (click)='addToHat(input.value)'>Add</button>
       </div>
       <div class="card-text text-center">

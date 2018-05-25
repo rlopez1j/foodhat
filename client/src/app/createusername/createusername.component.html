@@ -3,7 +3,7 @@
     <label for="username">Create Username</label>
     <input type="text" class="form-control col-sm-4 {{valid_class}}" id="username" required minlength="3" maxlength="15" pattern="[a-zA-Z0-9|_]+"
      [(ngModel)]="input" name="username" #username="ngModel"
-     [ngClass]="{'is-invalid': username.errors && (username.dirty || username.touched)}" (keyup)=searchName(username)>
+     [ngClass]="{'is-invalid': username.errors && (username.dirty || username.touched)}" (ngModelChange)=searchName(username)>
 
     <div *ngIf="username.errors && (username.dirty || username.touched)" class="invalid-feedback">
       <div [hidden]="!username.errors.minlength">

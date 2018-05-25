@@ -11,6 +11,7 @@ import { HatComponent } from '../hat/hat.component'
 })
 export class HomePageComponent implements OnInit {
     user = []
+    clicked = false
 
     componentRef: any;
     @ViewChild('container', {read: ViewContainerRef}) entry: ViewContainerRef;
@@ -29,7 +30,7 @@ export class HomePageComponent implements OnInit {
 
   // connects to socket.io directly through angular
   private startSocket(){
-    // remove "add-hat" button
+    this.clicked = true // changes the value to true which hides the button. Happy???
     this.entry.clear()
     const factory = this.resolver.resolveComponentFactory(HatComponent);
     this.componentRef = this.entry.createComponent(factory)

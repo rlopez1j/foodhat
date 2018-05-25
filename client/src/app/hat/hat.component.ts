@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
+import { } from '@types/googlemaps'
 import * as socketIO from 'socket.io-client'
 import { ApiService } from '../api.service'
 
@@ -9,10 +10,18 @@ import { ApiService } from '../api.service'
   styleUrls: ['./hat.component.css']
 })
 export class HatComponent implements OnInit{
+  // variables used for socket.io
   user = null
   room = null
   socket = null
-//  restaurant_choice = null
+
+  // Google Maps API variables
+  location = null
+  GoogleMaps = null
+
+  // dom binding
+  search_term = null
+  input_field = null
   constructor(private api:ApiService, private route: ActivatedRoute, private router: Router){}
 
   joinRoom(room){
@@ -21,6 +30,14 @@ export class HatComponent implements OnInit{
   }
 
   ngOnInit(){
+    if(navigator.geolocation){
+      navigator.geolocation.getCurrentPosition((position)=>{
+        this.location = new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
+      })
+    }
+
+    //this.GoogleMaps = new google.maps.places.PlacesService(/* map to dom element */)
+
     this.user = this.api.getUserData()
     this.room = this.user.username // might obfrustcate room name a bit
 
@@ -32,6 +49,7 @@ export class HatComponent implements OnInit{
         this.joinRoom(params.room)
       }
     })
+    // socket.io event handlers
     this.socket.on('user-data', (data)=>{
       console.log(data)
     })
@@ -45,7 +63,14 @@ export class HatComponent implements OnInit{
     })
   }
 
+  // adds restaurant obj to hat
   private addToHat(restaurant){
+    // will add json object
     this.socket.emit('add-to-hat', restaurant)
+  }
+
+  private searchGoogle(){
+    console.log(this.input_field)
+    console.log(this.search_term)
   }
 }
