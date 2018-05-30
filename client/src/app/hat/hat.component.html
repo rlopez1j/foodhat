@@ -1,23 +1,66 @@
-<div class="col-md-4 container">
-  <div class="card">
-    <div class="card-header">
-      <h2 class="card-title text-center">Hat</h2>
-    </div>
-    <div class="card-body col-md-auto">
-      <div class="card text text-center">
-        <div class="row">
-          <div class="col-sm" *ngFor="let friend of lobbyVals()">
+
+<div class="container">
+  <div class="row">
+<!-- UPPER USER LIST NAV BAR GOES HERE -->
+    <div class="col-md-12">
+      <div class="col-sm" *ngFor="let friend of lobbyVals()">
+        <div class="card" style="width: 18rem;">
+          <a><img class="card-img-top" src="{{friend.photo}}" id="prof_pic"></a>
+          <div class="card-body">
+            <!-- several action buttons -->
             {{friend.name}}
           </div>
         </div>
       </div>
-      <div class="card-text text-center">
-        <input type="text" #input [(ngModel)]="search_term" (ngModelChange)="searchGoogle()">
-        <button type="button" class="btn btn-default" (click)='addToHat(input.value)'>Add</button>
-      </div>
-      <div class="card-text text-center">
-        angular text here
+    </div>
+<!-- CHAT AND MESSAGE BOARD GOES HERE -->
+    <div class="col-md-6 container">
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title text-center">Hat</h2>
+        </div>
+        <div class="card-body col-md-auto">
+          <div class="card text text-center">
+            <div class="row">
+              <div class="col-sm" *ngFor="let friend of lobbyVals()">
+                {{friend.name}}
+              </div>
+            </div>
+          </div>
+          <div class="card-text text-center">
+            <input type="text" #input [(ngModel)]="search_term" (ngModelChange)="searchGoogle()">
+            <button type="button" class="btn btn-default" (click)='addToHat(input.value)'>Add</button>
+          </div>
+          <div class="card-text text-center">
+            angular text here
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </div>
+
+<!-- <style media="screen">
+
+</style>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-4">
+      <div class="well well-lg">
+        <h3>Participants</h3>
+        <ul class="list-group" id="users"></ul>
+      </div>
+    </div>
+    <div class="col-md-8">
+      <div class="chat" id="chat"></div>
+      <form id="messages">
+        <div class="form-group">
+          <label>Type Message</label>
+          <textarea class="form-control" id="message"></textarea><br>
+          <input type="submit" class="btn btn-primary" value="send message">
+        </div>
+      </form>
+    </div>
+  </div>
+</div> -->
