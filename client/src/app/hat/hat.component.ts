@@ -83,10 +83,10 @@ export class HatComponent implements OnInit{
   private searchGoogle(){
     if(this.search_term == ''){
       this.suggestions = null
-    }
-    console.log(this.search_term)
-    // sets options for maps search
-    var options = {
+    } else{      
+      console.log(this.search_term)
+      // sets options for maps search
+      var options = {
       location: this.location, // uses the location object we created
       radius: '8046.72', // 5 mi raduis in m
       name: this.search_term,
@@ -114,6 +114,7 @@ export class HatComponent implements OnInit{
         console.log('suggestions: ', this.suggestions)
       }
     })
+    }
   }
 
   private createList(list){
