@@ -90,32 +90,28 @@ export class HatComponent implements OnInit{
       type: ['restaurant'] // duh
     }
     var results
-    this.GoogleMaps.nearbySearch(options, /*(results = this.callback)=>{
-      console.log('results: ', results)
-    }*/ this.callback)
-  }
-
-  private callback(restaurants, status){
-    if(status == google.maps.places.PlacesServiceStatus.OK){
-      // do stuff
-      console.log(restaurants) // for debugging purposes
-      var list = Array()
-      restaurants.forEach((data, index)=>{
-        if(index < 5){
-          list.push({
-            name: data.name,
-            address: data.vicinity,
-            rating: data.rating,
-            hours: data.opening_hours
-          })
-        } else{
-          return
-        }
+    this.GoogleMaps.nearbySearch(options, (restaurants, status)=>{
+      if(status == google.maps.places.PlacesServiceStatus.OK){
+        // do stuff
+        console.log(restaurants) // for debugging purposes
+        var list = Array()
+        restaurants.forEach((data, index)=>{
+          if(index < 5){
+            list.push({
+              name: data.name,
+              address: data.vicinity,
+              rating: data.rating,
+              hours: data.opening_hours
+            })
+          } else{
+            return
+          }
+        })
+        this.suggestions = list
+        console.log('suggestions: ', this.suggestions)
+      }
     })
-    console.log('list: ', list)
-    return list
   }
-}
 
   private createList(list){
     this.suggestions = list

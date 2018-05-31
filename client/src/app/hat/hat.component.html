@@ -29,11 +29,16 @@
           </div>
           <div class="card-text text-center">
             <input type="text" #input [(ngModel)]="search_term" (ngModelChange)="searchGoogle()">
-            <!-- <div [hidden]="restaurant_list">
-              <span *ngFor="let restaurant of restaurant_list">
-                {{restaurant.name}}
+            <div [hidden]="!suggestions">
+              <span *ngFor="let restaurant of suggestions">
+                <ul>
+                  <li>
+                    {{restaurant.name}}
+                    {{restaurant.address}}
+                  </li>
+                </ul>
               </span>
-            </div> -->
+            </div>
             <button type="button" class="btn btn-default" (click)='addToHat(input.value)'>Add</button>
           </div>
           <div class="card-text text-center">
