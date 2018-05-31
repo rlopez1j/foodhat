@@ -32,10 +32,10 @@
             <div [hidden]="!suggestions">
               <span *ngFor="let restaurant of suggestions">
                 <ul>
-                  <li>
+                  <button class="btn btn-primary" (click)=select(restaurant)>
                     {{restaurant.name}}
                     {{restaurant.address}}
-                  </li>
+                  </button>
                 </ul>
               </span>
             </div>

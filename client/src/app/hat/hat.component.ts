@@ -83,7 +83,7 @@ export class HatComponent implements OnInit{
   private searchGoogle(){
     if(this.search_term == ''){
       this.suggestions = null
-    } else{      
+    } else{
       console.log(this.search_term)
       // sets options for maps search
       var options = {
@@ -117,10 +117,10 @@ export class HatComponent implements OnInit{
     }
   }
 
-  private createList(list){
-    this.suggestions = list
-    console.log(this.suggestions)
+  private select(restaurant){
+    console.log('selected: ', restaurant)
   }
+
 
   private lobbyVals(): Array<String>{ // *ngFor cant iterate through maps so must convert to array
     return Array.from(this.lobby.values())
