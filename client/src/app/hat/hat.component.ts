@@ -81,6 +81,9 @@ export class HatComponent implements OnInit{
   }
 
   private searchGoogle(){
+    if(this.search_term == ''){
+      this.suggestions = null
+    }
     console.log(this.search_term)
     // sets options for maps search
     var options = {
