@@ -1,9 +1,17 @@
-<p [hidden]='clicked'>
-  You are signed in {{user.name}}
-</p>
+<div class="container col-md-2 row p-4">
+  <div class="card" [hidden]='clicked'>
+    <img src={{user.photo}} alt="Card image cap" class="card-img-top">
+    <div class="card-body">
+      <h3 class="card-title">
+        Welcome, {{user.name}}
+      </h3>
+      <button class="btn btn-default " id="create-hat" (click)='startSocket()'>Create Hat</button>
+    </div>
+  </div>
+</div>
+
 
 <!-- will add the hat stuff here -->
-<button class="btn btn-default" id="create-hat" [hidden]='clicked' (click)='startSocket()'>Create Hat</button>
 <div>
   <template #container></template>
 </div>

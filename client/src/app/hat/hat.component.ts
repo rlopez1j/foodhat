@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core'
+import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { } from '@types/googlemaps'
 import * as socketIO from 'socket.io-client'
@@ -10,6 +10,9 @@ import { ApiService } from '../api.service'
   styleUrls: ['./hat.component.css']
 })
 export class HatComponent implements OnInit{
+  // this is just used for .PlacesService argument
+  @ViewChild('input') dom: ElementRef
+
   // variables used for socket.io
   user = null
   room = null
@@ -19,10 +22,11 @@ export class HatComponent implements OnInit{
   // Google Maps API variables
   location = null
   GoogleMaps = null
+  suggestions = null
 
   // dom binding
   search_term = null
-  input_field = null
+  html_snippet = null
   constructor(private api:ApiService, private route: ActivatedRoute, private router: Router){}
 
   private joinRoom(room){ // helper function
@@ -37,7 +41,7 @@ export class HatComponent implements OnInit{
       })
     }
 
-    //this.GoogleMaps = new google.maps.places.PlacesService(/* map to dom element */)
+    this.GoogleMaps = new google.maps.places.PlacesService(this.dom.nativeElement)
 
     this.user = this.api.getUserData()
     this.room = this.user.username // might obfrustcate room name a bit
@@ -77,12 +81,54 @@ export class HatComponent implements OnInit{
   }
 
   private searchGoogle(){
-    console.log(this.input_field)
     console.log(this.search_term)
+    // sets options for maps search
+    var options = {
+      location: this.location, // uses the location object we created
+      radius: '8046.72', // 5 mi raduis in m
+      name: this.search_term,
+      type: ['restaurant'] // duh
+    }
+    var results
+    this.GoogleMaps.nearbySearch(options, /*(results = this.callback)=>{
+      console.log('results: ', results)
+    }*/ this.callback)
+  }
+
+  private callback(restaurants, status){
+    if(status == google.maps.places.PlacesServiceStatus.OK){
+      // do stuff
+      console.log(restaurants) // for debugging purposes
+      var list = Array()
+      restaurants.forEach((data, index)=>{
+        if(index < 5){
+          list.push({
+            name: data.name,
+            address: data.vicinity,
+            rating: data.rating,
+            hours: data.opening_hours
+          })
+        } else{
+          return
+        }
+    })
+    console.log('list: ', list)
+    return list
+  }
+}
+
+  private createList(list){
+    this.suggestions = list
+    console.log(this.suggestions)
   }
 
   private lobbyVals(): Array<String>{ // *ngFor cant iterate through maps so must convert to array
     return Array.from(this.lobby.values())
+  }
+
+  private disconnect(){
+    this.socket.emit('disconnect')
+    window.location.href='/'
   }
 
 }
