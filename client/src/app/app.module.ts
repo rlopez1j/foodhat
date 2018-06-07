@@ -1,8 +1,11 @@
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule} from '@angular/router';
-import { HttpModule, Http} from '@angular/http';
-import { FormsModule } from '@angular/forms'
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatInputModule } from '@angular/material/input';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -41,8 +44,11 @@ const URI_ROUTES: Routes = [ // will need to modify routing once sessions are im
   imports: [
     BrowserModule,
     RouterModule.forRoot(URI_ROUTES, {enableTracing: false}),
-    HttpModule,
-    FormsModule
+    HttpClientModule,
+    FormsModule,
+    BrowserAnimationsModule,
+    MatAutocompleteModule,
+    MatInputModule
   ],
   providers: [ApiService],
   bootstrap: [AppComponent]

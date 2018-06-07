@@ -18,7 +18,7 @@ export class HomeComponent implements OnInit{
   constructor(private api:ApiService, private resolver: ComponentFactoryResolver){}
   ngOnInit(){
     this.entry.clear();
-    this.api.getProfile().subscribe((data)=>{
+    this.api.getProfile().subscribe((data: any)=>{
       console.log(data)
       if(data.signedOut){
         const factory = this.resolver.resolveComponentFactory(SignupComponent)

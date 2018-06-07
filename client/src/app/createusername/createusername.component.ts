@@ -20,7 +20,7 @@ export class CreateusernameComponent implements OnInit{
   searchName(username){
     if(!username.errors && (username.dirty || username.touched)){
       console.log(username.model);
-      this.api.checkUsername(username.model).subscribe((username)=>{
+      this.api.checkUsername(username.model).subscribe((username: any)=>{
         if(username.avaiable){
           console.log('username available')
           this.valid_class = 'is-valid'
