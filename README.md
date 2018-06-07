@@ -36,7 +36,9 @@ TODO:
 
 6. Finish backend API to start mobile app
 
-7. have a live MVP
+7. Have a live MVP
+
+8. Update ComponentFactory to Angular Elements
 
 
 Bugs:
@@ -48,7 +50,7 @@ b.1: api is currently unrestricted and viewable client-side
 
 Issues:
 
-i.0: autocomplete does not work
+i.0: fix home component because it logs in every time a user click the button. This is not optimal and creates unnecessary api calls. Separate the log in from the home page.
 
 PROGRESS:
 

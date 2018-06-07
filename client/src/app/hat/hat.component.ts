@@ -22,7 +22,7 @@ export class HatComponent implements OnInit{
   // Google Maps API variables
   location = null
   GoogleMaps = null
-  suggestions = null
+  suggestions = []
 
   // dom binding
   search_term = null
@@ -86,7 +86,7 @@ export class HatComponent implements OnInit{
     } else{
       console.log(this.search_term)
       // sets options for maps search
-      var options = {
+      var options = { /* check if you can extend raduis without hardcoding*/
       location: this.location, // uses the location object we created
       radius: '8046.72', // 5 mi raduis in m
       name: this.search_term,

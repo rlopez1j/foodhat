@@ -44,9 +44,9 @@ var server = app.listen(3000, function(){
 var io = socket(server);
 
 // socket io variables
-var room = null
-var lobby = new Map()
-this_user = null
+var room = null // room name
+var lobby = new Map() // lobby of users
+this_user = null // current user in the scope
 
 io.on('connection', (socket) =>{
   // only comes out when we have contacted the client too
@@ -59,6 +59,12 @@ io.on('connection', (socket) =>{
 	})
 
 	socket.on('join', (user)=>{
+		lobby.forEach((current_users)=>{
+			if(user.username == current_users.username){ // user already in lobby
+				console.log('you\'re alredy here!');
+			}
+		})
+
 		user_data = {
 			name: user.name,
 			username: user.username,

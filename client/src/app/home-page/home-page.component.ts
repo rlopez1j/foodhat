@@ -20,6 +20,7 @@ export class HomePageComponent implements OnInit {
      private route: ActivatedRoute, private router: Router){}
 
   ngOnInit(){
+    console.log('user: ', this.api.getUserData())
     this.user = this.api.getUserData()
     this.route.queryParams.subscribe(params=>{
       if(params.room){

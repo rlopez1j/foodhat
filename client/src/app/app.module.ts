@@ -4,8 +4,6 @@ import { Routes, RouterModule} from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-//import { MatAutocompleteModule } from '@angular/material/autocomplete';
-//import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule, MatInputModule, MatAutocompleteModule } from '@angular/material';
 
 import { AppComponent } from './app.component';
@@ -19,14 +17,11 @@ import { CreateusernameComponent } from './createusername/createusername.compone
 import { HomePageComponent } from './home-page/home-page.component';
 import { HatComponent } from './hat/hat.component';
 
-const URI_ROUTES: Routes = [ // will need to modify routing once sessions are implemented
-  {path: 'contact-us', component: ContactComponent, data: {title: 'Contact Us'}},
+const URI_ROUTES: Routes = [
   {path: '', component: HomeComponent, data: {title: 'Home'}},
+  {path: 'home', component: HomePageComponent, data: {title: 'Home'}},
+  {path: 'contact-us', component: ContactComponent, data: {title: 'Contact Us'}},
   {path: 'about-us', component: AboutComponent, data:{title: 'About Us'}},
-  {path: 'signup', component: SignupComponent,  data: {title: 'Food Hat'}},
-  {path: 'create', component: CreateusernameComponent, data: {title: 'Create Username'}},
-  {path: '', component: HomePageComponent, data: {title: 'Home'}},
-  {path: 'hat', component: HatComponent, data: {title: ''}},
   {path: '**', component: NotfoundComponent, data: {title: '404: Page Not Found!'}}
 ];
 
@@ -53,6 +48,7 @@ const URI_ROUTES: Routes = [ // will need to modify routing once sessions are im
     MatFormFieldModule
   ],
   providers: [ApiService],
+  entryComponents: [HatComponent, CreateusernameComponent, SignupComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -31,14 +31,6 @@
             <mat-form-field>
               <input matInput type="text" #input [(ngModel)]="search_term" (ngModelChange)="searchGoogle()" [matAutocomplete]="auto">
             </mat-form-field>
-              <!-- <span *ngFor="let restaurant of suggestions">
-                <ul>
-                  <button class="btn btn-primary" (click)=select(restaurant)>
-                    {{restaurant.name}}
-                    {{restaurant.address}}
-                  </button>
-                </ul>
-              </span> -->
               <mat-autocomplete #auto="matAutocomplete">
                 <mat-option *ngFor="let restaurant of suggestions">
                   {{restaurant.name}}
