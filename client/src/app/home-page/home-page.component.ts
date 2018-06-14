@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, ViewContainerRef,
-         ComponentFactoryResolver, ComponentRef, ComponentFactory } from '@angular/core'
+         ComponentFactoryResolver, ComponentRef, ComponentFactory, Injector } from '@angular/core'
+import { createCustomElement } from '@angular/elements'
 import { ActivatedRoute, Router } from '@angular/router'
 import { ApiService } from '../api.service'
 import { HatComponent } from '../hat/hat.component'
@@ -17,10 +18,16 @@ export class HomePageComponent implements OnInit {
     @ViewChild('container', {read: ViewContainerRef}) entry: ViewContainerRef;
 
   constructor(private api:ApiService, private resolver: ComponentFactoryResolver,
-     private route: ActivatedRoute, private router: Router){}
+     private route: ActivatedRoute, private router: Router, private injector: Injector){
+       if(document.createElement('app-hat').constructor == HTMLElement){
+         const hat = createCustomElement(HatComponent, {injector})
+         customElements.define('app-hat', hat)
+       } else{
+         this.clicked = true
+       }
+     }
 
   ngOnInit(){
-    console.log('user: ', this.api.getUserData())
     this.user = this.api.getUserData()
     this.route.queryParams.subscribe(params=>{
       if(params.room){
@@ -32,8 +39,11 @@ export class HomePageComponent implements OnInit {
   // connects to socket.io directly through angular
   private startSocket(){
     this.clicked = true // changes the value to true which hides the button. Happy???
-    this.entry.clear()
-    const factory = this.resolver.resolveComponentFactory(HatComponent);
-    this.componentRef = this.entry.createComponent(factory)
+    // this.entry.clear()
+    // const factory = this.resolver.resolveComponentFactory(HatComponent);
+    // this.componentRef = this.entry.createComponent(factory)
+    const element = document.createElement('app-hat')
+    // // console.log(element)
+    document.body.appendChild(element)
   }
 }

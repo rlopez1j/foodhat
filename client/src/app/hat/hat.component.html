@@ -29,10 +29,10 @@
           </div>
           <div class="card-text text-center">
             <mat-form-field>
-              <input matInput type="text" #input [(ngModel)]="search_term" (ngModelChange)="searchGoogle()" [matAutocomplete]="auto">
+              <input matInput type="text" #input [(ngModel)]="search_term" (input)="searchGoogle()" [matAutocomplete]="auto">
             </mat-form-field>
               <mat-autocomplete #auto="matAutocomplete">
-                <mat-option *ngFor="let restaurant of suggestions">
+                <mat-option *ngFor="let restaurant of suggestions" [value]="restaurant.name" (onSelectionChange)="addToHat(restaurant)">
                   {{restaurant.name}}
                   {{restaurant.address}}
                 </mat-option>

@@ -76,8 +76,10 @@ export class HatComponent implements OnInit{
 
   // adds restaurant obj to hat
   private addToHat(restaurant){
-    // will add json object
+    // create dialog and ask if they want to add to Hat
+    console.log('restaurant to add: ', restaurant)
     this.socket.emit('add-to-hat', restaurant)
+    // add it to ui
   }
 
   private searchGoogle(){
@@ -88,9 +90,9 @@ export class HatComponent implements OnInit{
       // sets options for maps search
       var options = { /* check if you can extend raduis without hardcoding*/
       location: this.location, // uses the location object we created
-      radius: '8046.72', // 5 mi raduis in m
       name: this.search_term,
-      type: ['restaurant'] // duh
+      type: ['restaurant'], // duh
+      rankBy: google.maps.places.RankBy.DISTANCE
     }
     var results
     this.GoogleMaps.nearbySearch(options, (restaurants, status)=>{
