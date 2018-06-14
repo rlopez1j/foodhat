@@ -77,7 +77,8 @@ io.on('connection', (socket) =>{
 		io.sockets.to(socket.id).emit('lobby', Array.from(lobby)) // converts to array bc socket.io cant transcribe maps
 	})
 
-	socket.on('add-to-hat', (restaurant)=>{
+	socket.on('add-to-hat', (restaurant, user)=>{
+		restaurant['user'] = user.name
 		socket.to(room).emit('choice', restaurant)
 	})
 

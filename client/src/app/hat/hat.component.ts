@@ -18,6 +18,7 @@ export class HatComponent implements OnInit{
   room = null
   socket = null
   lobby = new Map()
+  in_hat = new Array()
 
   // Google Maps API variables
   location = null
@@ -62,6 +63,8 @@ export class HatComponent implements OnInit{
 
     this.socket.on('choice', (choice)=>{ // gets choice from any given user
       console.log(choice)
+      this.in_hat.push(choice)
+      //this.in_hat = this.in_hat
     })
 
     this.socket.on('lobby', (lobby)=>{ // only gets triggered once when the this.user enters
@@ -78,7 +81,10 @@ export class HatComponent implements OnInit{
   private addToHat(restaurant){
     // create dialog and ask if they want to add to Hat
     console.log('restaurant to add: ', restaurant)
-    this.socket.emit('add-to-hat', restaurant)
+    console.log('open: ', restaurant.hours.open_now, ' hours: ', restaurant.hours.weekday_text)
+    this.socket.emit('add-to-hat', restaurant, this.user)
+    restaurant['user'] = this.user.name
+    this.in_hat.push(restaurant)
     // add it to ui
   }
 
@@ -100,16 +106,18 @@ export class HatComponent implements OnInit{
         // do stuff
         console.log(restaurants) // for debugging purposes
         var list = Array()
-        restaurants.forEach((data, index)=>{
-          if(index < 5){
-            list.push({
-              name: data.name,
-              address: data.vicinity,
-              rating: data.rating,
-              hours: data.opening_hours
-            })
-          } else{
-            return
+        restaurants.forEach((data, index)=>{ // make restaurant filtering better
+          if(data.name.toLowerCase().indexOf(this.search_term) != -1){ // test more, but might use to filter better
+            if(list.length < 4){
+              list.push({
+                name: data.name,
+                address: data.vicinity,
+                rating: data.rating,
+                hours: data.opening_hours
+              })
+            } else{
+              return
+            }
           }
         })
         this.suggestions = list
