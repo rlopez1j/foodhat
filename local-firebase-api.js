@@ -5,7 +5,8 @@ module.exports = {
   isUsernameAvailable: (username)=>{
     return new Promise(function(resolve, reject){
       firestore.collection('users').where('username', '==', username)
-      .get().then(username =>{
+      .get()
+      .then(username =>{
         // `_size` is 0 if there are no documents found. i.e. username not database
         if(username._size == 0){
           resolve(true)
@@ -28,7 +29,8 @@ module.exports = {
 
       // firestore operations and logic
       firestore.collection('history').where(user, '==', true)
-      .get().then(history =>{
+      .get()
+      .then(history =>{
         history.forEach((hat)=>{
           user_history.push(hat.data())
         })
@@ -47,17 +49,18 @@ module.exports = {
 
       // firestore operations and logic
       var test = firestore.collection('friends').doc(email)
-      .get().then(collection =>{
+      .get()
+      .then(collection =>{
 
         // checks if the user has any friends. If they don't, send empty array
         if(collection.data().friends_list[0] == null){
           resolve(friends_list)
         } else{
-
           // iterates the friend's list and searches for friend's data with username
           collection.data().friends_list.forEach((friend_username)=>{
             firestore.collection('users').where('username', '==', friend_username)
-            .get().then((friend_data)=>{
+            .get()
+            .then((friend_data)=>{
 
               friend_data.forEach((friend)=>{
                 friends_list.push({
@@ -88,7 +91,8 @@ module.exports = {
   // updates the 'username' field of a user
   modifyUsername: (email, new_username)=>{
     return new Promise(function(resolve, reject){
-      firestore.collection('users').doc(email).update({username: new_username})
+      firestore.collection('users').doc(email)
+      .update({username: new_username})
       .then(result =>{
         if(result){ // if result is null, then database was not updated
           resolve(true) // json coomunicate w front-end

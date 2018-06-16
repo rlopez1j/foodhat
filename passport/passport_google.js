@@ -4,7 +4,6 @@ const CLIENT = require('../api_keys/keys')
 const db = require('../firebase')
 
 passport.serializeUser((user, done)=>{
-  console.log(user);
   done(null, user.email)
 })
 
@@ -20,9 +19,13 @@ passport.use(
     clientID: CLIENT.GOOGLE.CLIENT_ID,
     clientSecret: CLIENT.GOOGLE.CLIENT_SECRET,
     callbackURL: '/api/google/redirect'
-  }, (access_token, refresh_token, profile, done)=>{
+  },
+  (access_token, refresh_token, profile, done)=>{
       // check if user exists
-      db.collection('users').doc(profile.emails[0].value).get().then(user =>{
+      db.collection('users').doc(profile.emails[0].value)
+      .get()
+      .then(user =>{
+
         if(!user.exists){
           new_user = { // may put in diff file if i need it in other places
             id: profile.id,
@@ -31,14 +34,21 @@ passport.use(
             photo: profile.photos[0].value,
             email: profile.emails[0].value
           }
+
           friends = {
             friend_requests: [null],
             friends_list: [null],
             pending_requests: [null]
           }
+
           new_user.photo = new_user.photo.slice(0, -6) // trim ?sz=50 from photo url
-          db.collection('users').doc(new_user.email).set(new_user).then(() =>{
-            db.collection('friends').doc(new_user.email).set(friends).then(() =>{
+          db.collection('users').doc(new_user.email)
+          .set(new_user)
+          .then(()=>{
+
+            db.collection('friends').doc(new_user.email)
+            .set(friends)
+            .then(()=>{
               console.log('added to database'); // not really needed :rolling-eyes-emoji
               done(null, new_user)
             })
@@ -49,4 +59,4 @@ passport.use(
         }
       })
   })
-);
+)
