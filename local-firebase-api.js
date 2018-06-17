@@ -56,6 +56,7 @@ module.exports = {
         if(collection.data().friends_list[0] == null){
           resolve(friends_list)
         } else{
+
           // iterates the friend's list and searches for friend's data with username
           collection.data().friends_list.forEach((friend_username)=>{
             firestore.collection('users').where('username', '==', friend_username)

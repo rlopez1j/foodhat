@@ -13,13 +13,17 @@ import { ContactComponent } from './contact/contact.component';
 import { SignupComponent } from './signup/signup.component';
 import { NotfoundComponent } from './notfound/notfound.component';
 import { ApiService } from './api.service';
+import { AuthGuard } from './auth.guard';
+import { UsernameGuard } from './username.guard';
 import { CreateusernameComponent } from './createusername/createusername.component';
 import { HomePageComponent } from './home-page/home-page.component';
 import { HatComponent } from './hat/hat.component';
 
 const URI_ROUTES: Routes = [
-  {path: '', component: HomeComponent, data: {title: 'Home'}},
-  {path: 'home', component: HomePageComponent, data: {title: 'Home'}},
+  // {path: '', canActivate: [AuthGuard], component: HomePageComponent, data: {title: 'Home'}},
+  {path: '', canActivate: [AuthGuard], component: HomePageComponent, data: {title: 'Home'}},
+  {path: 'signup', component: SignupComponent, data: {title: 'Sign Up'}},
+  {path: 'create-username', canActivate: [UsernameGuard], component: CreateusernameComponent, data: {title: 'Create Username'}},
   {path: 'contact-us', component: ContactComponent, data: {title: 'Contact Us'}},
   {path: 'about-us', component: AboutComponent, data:{title: 'About Us'}},
   {path: '**', component: NotfoundComponent, data: {title: '404: Page Not Found!'}}
@@ -48,8 +52,8 @@ const URI_ROUTES: Routes = [
     MatFormFieldModule,
     MatCardModule
   ],
-  providers: [ApiService],
-  entryComponents: [HatComponent, CreateusernameComponent, SignupComponent],
+  providers: [ApiService, AuthGuard],
+  entryComponents: [HatComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

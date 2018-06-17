@@ -28,7 +28,17 @@ export class HomePageComponent implements OnInit {
      }
 
   ngOnInit(){
-    this.user = this.api.getUserData()
+    console.log('we out here!')
+    if(!this.api.getUserData()){
+      this.api.getProfile().subscribe((data: any)=>{
+        console.log(data)
+        this.api.changeUserData(data)
+        this.user = this.api.getUserData()
+      })
+    } else{
+      this.user = this.api.getUserData()
+      console.log('no refresh: ', this.user)
+    }
     this.route.queryParams.subscribe(params=>{
       if(params.room){
         this.startSocket()

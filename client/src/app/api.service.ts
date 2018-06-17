@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Observable, of} from 'rxjs'
+import { map } from 'rxjs/operators'
 
 @Injectable()
 export class ApiService{
@@ -20,4 +22,6 @@ export class ApiService{
   getHistory(){ return this.http.get('api/crud/get-history') }
   // gets the friend list from the db
   getFriendsList(){ return this.http.get('api/crud/get-friends-list') }
+
+  getSignInStatus(): Observable<boolean>{ return this.http.get<boolean>('api/google/signin-status') }
 }
