@@ -22,8 +22,6 @@ export class HomePageComponent implements OnInit {
        if(document.createElement('app-hat').constructor == HTMLElement){
          const hat = createCustomElement(HatComponent, {injector})
          customElements.define('app-hat', hat)
-       } else{
-         this.clicked = true
        }
      }
 

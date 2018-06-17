@@ -20,7 +20,6 @@ import { HomePageComponent } from './home-page/home-page.component';
 import { HatComponent } from './hat/hat.component';
 
 const URI_ROUTES: Routes = [
-  // {path: '', canActivate: [AuthGuard], component: HomePageComponent, data: {title: 'Home'}},
   {path: '', canActivate: [AuthGuard], component: HomePageComponent, data: {title: 'Home'}},
   {path: 'signup', component: SignupComponent, data: {title: 'Sign Up'}},
   {path: 'create-username', canActivate: [UsernameGuard], component: CreateusernameComponent, data: {title: 'Create Username'}},
