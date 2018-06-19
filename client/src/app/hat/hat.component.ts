@@ -78,6 +78,10 @@ export class HatComponent implements OnInit{
       this.in_hat = new_hat
       console.log('udpated lobby: ', this.lobby)
     })
+    // this is used to remove choices from users that have disconnected from the hat
+    this.socket.on('update-hat',(new_hat)=>{
+      this.in_hat = new_hat
+    })
   }
 
   // adds restaurant obj to hat

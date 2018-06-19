@@ -44,10 +44,9 @@ var server = app.listen(3000, function(){
 var io = socket(server);
 
 // socket io variables
-var room = null // room name
+var room = new Array() // room name
 var lobby = new Map() // lobby of users
 this_user = null // current user in the scope
-duplicate = false
 
 io.on('connection', (socket) =>{
   // only comes out when we have contacted the client too
@@ -55,25 +54,26 @@ io.on('connection', (socket) =>{
 
 	// connect to a room
 	socket.on('room', (client)=>{
-		room = client
+		if(!room[client]){
+			room[client] = new Map()
+		}
 		socket.join(room)
 	})
 
 	socket.on('join', (user)=>{
+		console.log('users in lobby: ', lobby)
 		lobby.forEach((current_user, key)=>{
-			if(user.username == current_user.username){ // user already in lobby
+			if(user.username == current_  user.username){ // user already in lobby
 					console.log('you\'re already in here!')
 					lobby.delete(key)
 					return
 			}
 		})
-		console.log('with dup: ', lobby);
 		user_data = {
 			name: user.name,
 			username: user.username,
 			photo: user.photo
 		}
-		this_user = lobby.length
 		lobby.set(socket.id, user_data) // updates the lobby
 
 		io.sockets.in(room).emit('user-data', user_data, socket.id) // sends user info to client for ui
@@ -85,6 +85,12 @@ io.on('connection', (socket) =>{
 	socket.on('add-to-hat', (restaurant, user)=>{
 		restaurant['user'] = user.name
 		socket.to(room).emit('choice', restaurant)
+	})
+
+	socket.on('disconnect-client', (hat)=>{
+		new_hat = new Array
+		new_hat = hat.filter(data => data.name != lobby.get(socket.id).name)
+		io.socket.in(room).emit('update-hat', new_hat)
 	})
 
 	// handle case when a user leaves the app
