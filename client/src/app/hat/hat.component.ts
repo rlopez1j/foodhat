@@ -45,11 +45,13 @@ export class HatComponent implements OnInit{
     this.GoogleMaps = new google.maps.places.PlacesService(this.dom.nativeElement)
 
     this.user = this.api.getUserData()
+    console.log('hat: ', this.user)
     this.room = this.user.username // might obfrustcate room name a bit
 
     this.socket = socketIO('http://localhost:3000')
     this.route.queryParams.subscribe(params=>{ // this is how invitations are going to be handled
       if(!params.room){ // if no room param in url (room dne) creat room
+        console.log('params: ', params)
         this.joinRoom(this.room)
       } else{
         this.joinRoom(params.room) // joins room in the given query param
@@ -71,8 +73,9 @@ export class HatComponent implements OnInit{
       this.lobby = new Map(lobby) // have to reconvert to Map()
     })
 
-    this.socket.on('update-lobby', (new_lobby)=>{
+    this.socket.on('update-lobby', (new_lobby, new_hat)=>{
       this.lobby = new Map(new_lobby) // have to reconvert to Map()
+      this.in_hat = new_hat
       console.log('udpated lobby: ', this.lobby)
     })
   }
@@ -137,6 +140,8 @@ export class HatComponent implements OnInit{
   }
 
   private disconnect(){
+    console.log(this.in_hat)
+    this.socket.emit('disconnect-client', this.in_hat)
     this.socket.emit('disconnect')
     window.location.href='/'
   }
