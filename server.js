@@ -1,5 +1,6 @@
 const express = require('express');
-const socket = require('socket.io');
+//const socket = require('socket.io');
+const io = require('./hat-socket');
 const cors = require('cors');
 const passport = require('passport');
 const cookie = require('cookie-session');
@@ -40,65 +41,4 @@ var server = app.listen(3000, function(){
 	console.log('listening on port 3000...');
 });
 
-// initializes socket.io
-var io = socket(server);
-
-// socket io variables
-var room = new Array() // room name
-var lobby = new Map() // lobby of users
-this_user = null // current user in the scope
-
-io.on('connection', (socket) =>{
-  // only comes out when we have contacted the client too
-	console.log('made socket connection', socket.id);
-
-	// connect to a room
-	socket.on('room', (client)=>{
-		if(!room[client]){
-			room[client] = new Map()
-		}
-		socket.join(room)
-	})
-
-	socket.on('join', (user)=>{
-		console.log('users in lobby: ', lobby)
-		lobby.forEach((current_user, key)=>{
-			if(user.username == current_  user.username){ // user already in lobby
-					console.log('you\'re already in here!')
-					lobby.delete(key)
-					return
-			}
-		})
-		user_data = {
-			name: user.name,
-			username: user.username,
-			photo: user.photo
-		}
-		lobby.set(socket.id, user_data) // updates the lobby
-
-		io.sockets.in(room).emit('user-data', user_data, socket.id) // sends user info to client for ui
-
-		io.sockets.to(socket.id).emit('lobby', Array.from(lobby)) // converts to array bc socket.io cant transcribe maps
-		duplicate = false
-	})
-
-	socket.on('add-to-hat', (restaurant, user)=>{
-		restaurant['user'] = user.name
-		socket.to(room).emit('choice', restaurant)
-	})
-
-	socket.on('disconnect-client', (hat)=>{
-		new_hat = new Array
-		new_hat = hat.filter(data => data.name != lobby.get(socket.id).name)
-		io.socket.in(room).emit('update-hat', new_hat)
-	})
-
-	// handle case when a user leaves the app
-	socket.on('disconnect', ()=>{
-		console.log(socket.id+' has disconnected');
-		// new_hat = hat.filter(data => data.name != lobby.get(socket.id).name)
-		// new_hat = new Array
-		lobby.delete(socket.id) // best way to remove the disconnected user from the lobby
-		io.sockets.in(room).emit('update-lobby', Array.from(lobby)) // same as line 71
-	});
-});
+io(server);

@@ -31,8 +31,8 @@ export class HatComponent implements OnInit{
   constructor(private api:ApiService, private route: ActivatedRoute, private router: Router){}
 
   private joinRoom(room){ // helper function
-    this.socket.emit('room', room)
-    this.socket.emit('join', this.user)
+    this.socket.emit('room', room, this.user)
+    //this.socket.emit('join', this.user)
   }
 
   ngOnInit(){
@@ -54,33 +54,31 @@ export class HatComponent implements OnInit{
         console.log('params: ', params)
         this.joinRoom(this.room)
       } else{
-        this.joinRoom(params.room) // joins room in the given query param
+        this.room = params.room
+        this.joinRoom(this.room) // joins room in the given query param
       }
     })
     // socket.io event handlers
-    this.socket.on('user-data', (data, index)=>{ // get triggered when any users enter
+    this.socket.on('update-lobby', (data, index)=>{ // get triggered when any users enter
       this.lobby.set(index, data) // adds the user in the lobby<Map>
       console.log("new user: ", this.lobby)
     })
 
-    this.socket.on('choice', (choice)=>{ // gets choice from any given user
+    this.socket.on('update-hat', (choice)=>{ // gets choice from any given user
       console.log(choice)
       this.in_hat.push(choice)
       //this.in_hat = this.in_hat
     })
 
-    this.socket.on('lobby', (lobby)=>{ // only gets triggered once when the this.user enters
-      this.lobby = new Map(lobby) // have to reconvert to Map()
+    this.socket.on('create-lobby', (new_lobby)=>{ // only gets triggered once when the this.user enters
+      this.lobby = new Map(new_lobby) // have to reconvert to Map()
+      console.log('new lobby: ', this.lobby)
     })
 
-    this.socket.on('update-lobby', (new_lobby, new_hat)=>{
-      this.lobby = new Map(new_lobby) // have to reconvert to Map()
-      this.in_hat = new_hat
-      console.log('udpated lobby: ', this.lobby)
-    })
     // this is used to remove choices from users that have disconnected from the hat
-    this.socket.on('update-hat',(new_hat)=>{
-      this.in_hat = new_hat
+    this.socket.on('remove-disconnected',(removed_user)=>{
+      console.log('removed: ', removed_user)
+      this.in_hat = this.in_hat.filter(data => data.user != removed_user)
     })
   }
 
@@ -89,7 +87,7 @@ export class HatComponent implements OnInit{
     // create dialog and ask if they want to add to Hat
     console.log('restaurant to add: ', restaurant)
     console.log('open: ', restaurant.hours.open_now, ' hours: ', restaurant.hours.weekday_text)
-    this.socket.emit('add-to-hat', restaurant, this.user)
+    this.socket.emit('add-to-hat', restaurant, this.user, this.room)
     restaurant['user'] = this.user.name
     this.in_hat.push(restaurant)
     // add it to ui
@@ -138,16 +136,14 @@ export class HatComponent implements OnInit{
     console.log('selected: ', restaurant)
   }
 
-
-  private lobbyVals(): Array<String>{ // *ngFor cant iterate through maps so must convert to array
+  // *ngFor cant iterate through maps so must convert to array
+  private lobbyVals(): Array<String>{
     return Array.from(this.lobby.values())
   }
 
   private disconnect(){
     console.log(this.in_hat)
-    this.socket.emit('disconnect-client', this.in_hat)
-    this.socket.emit('disconnect')
-    window.location.href='/'
+    this.socket.emit('disconnect-client', this.room)
+    window.location.href='/' // this might be changed in the future
   }
-
 }
