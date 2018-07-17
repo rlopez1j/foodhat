@@ -16,29 +16,37 @@ Creating foodhat using node.js, express, angular, and socket.io
 
 
 ## TODO:
-1. Brainstorm UI
-    - make things into modals
-    - animations
+<ol>
+  <li> Brainstorm UI
+    <ul><li>make things into modals</li>
+    <li>animations</li></ul>
+    </li>
+  <br>
+  <li>Work on Socket.IO randomize algorithm</li>
+  <br>
+  <li>Design user interactions
+  <ul><li> who can add who to hats</li>
+  <li> decide how many restaurants each user can add</li>
+  <li> timeouts?</li>
+  <li> privacy settings(?)</li></ul>
+  </li>
+  <br>
+  <li> Create the actual functionality of the app:
+  <ul><li>displaying 'winning' restaurant</li></ul>
+  </li>
+  <br>
+  <li> Work on notifications</li>
+  <ul><li>requires deployment</li></ul>
+  <br>
+  <li> Have a live MVP</li>
+  <br>
+  <li> Update ComponentFactory to Angular Elements</li>
+  <br>
+  <li> Remove unnecessary files.</li>
+</ol>
 
-2. Work on Socket.IO randomize algorithm
 
-3. Design user interactions
-    - who can add who to hats
-    - decide how many restaurants each user can add
-    - timeouts?
-    - privacy settings(?)
 
-4. Create the actual functionality of the app:
-    - displaying 'winning' restaurant
-
-5. Work on notifications
-    - requires deployment
-
-6. Have a live MVP
-
-7. Update ComponentFactory to Angular Elements
-
-8. Remove unnecessary files.
 
 
 ### Issues:
