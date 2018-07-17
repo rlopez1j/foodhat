@@ -81,6 +81,11 @@ module.exports = function(app){
       io.sockets.in(room_name).emit('remove-disconnected', removed_user.name)
   		io.sockets.in(room_name).emit('create-lobby', Array.from(rooms.get(room_name)))
       socket.disconnect(true)
+
+      // if the room is empty, delete the room variable to save space
+      if(rooms.get(room_name).size == 0){
+        rooms.delete(room_name)
+      }
   	})
 
   	// removes the user from the socket.io connection
