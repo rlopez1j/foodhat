@@ -17,8 +17,8 @@ Creating foodhat using node.js, express, angular, and socket.io
 
 ## TODO:
 1. Brainstorm UI
-  - make things into modals
-  - animations
+    - make things into modals
+    - animations
 
 2. Work on Socket.IO randomize algorithm
 
