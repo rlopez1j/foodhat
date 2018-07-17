@@ -14,6 +14,7 @@ Code Style:
 10. comments will have a space after comment operator: // comment here
 11. semicolons are not necessary. though if you use semicolons for a file, use them for the entirety of that file
 
+
 TODO:
 1. Brainstorm UI
   -make things into modals
@@ -37,11 +38,10 @@ TODO:
 
 7. Update ComponentFactory to Angular Elements
 
-8. remove unnecessary files.
+8. Remove unnecessary files.
 
 
 Bugs:
-
 1. adblock extensions stop google places api from working
 
 
