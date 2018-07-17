@@ -15,44 +15,39 @@ Code Style:
 11. semicolons are not necessary. though if you use semicolons for a file, use them for the entirety of that file
 
 TODO:
-1. brainstorm ui
+1. Brainstorm UI
+  -make things into modals
+  -animations
 
-2. Have user select username after signing up.
-  -Pull user history from FireStore to the home page.
+2. Work on Socket.IO randomize algorithm
 
-3. Work on Socket.IO functionality
-
-4. Design user interactions
+3. Design user interactions
   -who can add who to hats
+  -decide how many restaurants each user can add
+  -timeouts?
   -privacy settings(?)
 
-5. Create the actual functionality of the app:
-  -adding users to hat session
-  -selecting restaurant
+4. Create the actual functionality of the app:
   -displaying 'winning' restaurant
 
-6. Work on notifications
+5. Work on notifications
    -requires deployment
 
-6. Finish backend API to start mobile app
+6. Have a live MVP
 
-7. Have a live MVP
+7. Update ComponentFactory to Angular Elements
 
-8. Update ComponentFactory to Angular Elements
+8. remove unnecessary files.
 
 
 Bugs:
 
-b.0: adblock extensions stop google places api from working
-
-b.1: api is currently unrestricted and viewable client-side
+1. adblock extensions stop google places api from working
 
 
 Issues:
-
-i.0: fix home component because it logs in every time a user click the button. This is not optimal and creates unnecessary api calls. Separate the log in from the home page.
+1. see issues page
 
 PROGRESS:
 
-firebase compatibility has been added. Database of choice is going to be FireStore. User authentication for Google is working.
-Angular has been connected to the backend. Homepage for logged in users will be created soon.
+Users can create and join a hat. Users can add restaurants to the hat. All hat functions except selecting a winning restaurant have been completed.
