@@ -2,7 +2,15 @@ import { Injectable } from '@angular/core'
 import { AngularFirestore } from 'angularfire2/firestore'
 import * as firebase from 'firebase'
 import { Subject } from 'rxjs'
+/**
+    NOT FUNCTIONAL YET.
 
+    A lot of the things here are not working
+    and the methods have not been tweeked for
+    my own enviroment/architecture.
+
+    This is still in early development.
+*/
 @Injectable({
   providedIn: 'root'
 })
@@ -14,7 +22,6 @@ export class NotificationsService{
   constructor(private db: AngularFirestore){}
 
   getPermission(user){
-    console.log('in getPermission()')
     this.notifications.requestPermission()
     .then(()=>{
       console.log('notifs allowed')
@@ -22,10 +29,10 @@ export class NotificationsService{
     })
     .then((token)=>{
       console.log('token: ', token)
-      this.saveToken(user, token)
+      //this.saveToken(user, token)
     })
     .catch((err)=>{
-      console.log('do something here ', err)
+      console.log('error: ', err)
     })
   }
 
@@ -57,7 +64,7 @@ export class NotificationsService{
   receiveNotifications(){
     this.notifications.onMessage((payload)=>{
       console.log('notif: ', payload)
-      this.notif_source.next(payload)
+      //this.notif_source.next(payload)
     })
   }
 }

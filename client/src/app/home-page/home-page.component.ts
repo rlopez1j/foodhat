@@ -16,10 +16,6 @@ export class HomePageComponent implements OnInit {
 
   constructor(private api: ApiService, private route: ActivatedRoute,
     private router: Router, private injector: Injector, private notifications: NotificationsService){
-      this.notifications.getPermission(this.user)
-      this.notifications.pollToken(this.user)
-      this.notifications.receiveNotifications()
-
        if(document.createElement('app-hat').constructor == HTMLElement){
          const hat = createCustomElement(HatComponent, {injector})
          customElements.define('app-hat', hat)
@@ -27,10 +23,6 @@ export class HomePageComponent implements OnInit {
      }
 
   ngOnInit(){
-
-
-
-    console.log('we out here!')
     if(!this.api.getUserData()){
       this.api.getProfile().subscribe((data: any)=>{
         console.log(data)
@@ -47,6 +39,10 @@ export class HomePageComponent implements OnInit {
       this.user = this.api.getUserData()
       console.log('no refresh: ', this.user)
     }
+
+    this.notifications.getPermission(this.user)
+    //this.notifications.pollToken(this.user)
+    //this.notifications.receiveNotifications()
   }
 
   // connects to socket.io directly through angular
