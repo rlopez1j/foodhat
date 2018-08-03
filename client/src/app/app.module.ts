@@ -5,6 +5,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatFormFieldModule, MatInputModule, MatAutocompleteModule, MatCardModule } from '@angular/material';
+import { AngularFireModule } from 'angularfire2'
+import { AngularFirestore } from 'angularfire2/firestore'
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -18,6 +20,8 @@ import { UsernameGuard } from './username.guard';
 import { CreateusernameComponent } from './createusername/createusername.component';
 import { HomePageComponent } from './home-page/home-page.component';
 import { HatComponent } from './hat/hat.component';
+import { NotificationsService } from './notifications.service'
+import { Firebase } from '../../../api_keys/firebase-config'
 
 const URI_ROUTES: Routes = [
   {path: '', canActivate: [AuthGuard], component: HomePageComponent, data: {title: 'Home'}},
@@ -49,9 +53,10 @@ const URI_ROUTES: Routes = [
     MatAutocompleteModule,
     MatInputModule,
     MatFormFieldModule,
-    MatCardModule
+    MatCardModule,
+    AngularFireModule.initializeApp(Firebase),
   ],
-  providers: [ApiService, AuthGuard],
+  providers: [ApiService, AuthGuard, NotificationsService, AngularFirestore],
   entryComponents: [HatComponent],
   bootstrap: [AppComponent]
 })

@@ -3,6 +3,7 @@ import { createCustomElement } from '@angular/elements'
 import { ActivatedRoute, Router } from '@angular/router'
 import { ApiService } from '../api.service'
 import { HatComponent } from '../hat/hat.component'
+import { NotificationsService } from '../notifications.service'
 
 @Component({
   selector: 'app-home-page',
@@ -13,8 +14,12 @@ export class HomePageComponent implements OnInit {
     user = []
     clicked = false
 
-  constructor(private api:ApiService, private route: ActivatedRoute,
-    private router: Router, private injector: Injector){
+  constructor(private api: ApiService, private route: ActivatedRoute,
+    private router: Router, private injector: Injector, private notifications: NotificationsService){
+      this.notifications.getPermission(this.user)
+      this.notifications.pollToken(this.user)
+      this.notifications.receiveNotifications()
+
        if(document.createElement('app-hat').constructor == HTMLElement){
          const hat = createCustomElement(HatComponent, {injector})
          customElements.define('app-hat', hat)
@@ -22,6 +27,9 @@ export class HomePageComponent implements OnInit {
      }
 
   ngOnInit(){
+
+
+
     console.log('we out here!')
     if(!this.api.getUserData()){
       this.api.getProfile().subscribe((data: any)=>{

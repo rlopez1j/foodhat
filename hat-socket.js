@@ -1,5 +1,5 @@
 const socket = require('socket.io')
-
+const randomstring = require('randomstring')
 // TODO: update the data struct all thoughout the app
 // TODO: move all socket.io code to a different file
 
@@ -39,16 +39,15 @@ module.exports = function(app){
 
   	// connect to a room
   	socket.on('room', (room_name, user)=>{
+      if(room_name == null){
+        room_name = randomstring.generate(15)
+        io.sockets.to(socket.id).emit('room-name', room_name)
+      }
+
   		if(!rooms.has(room_name)){
   			rooms.set(room_name, new Map())
   		}
 
-  	/* to handle duplicate users we will create the function duplicateUserHadling(room_name, user)
-  		 which will be a wrapper for lines 73-80 (rooms.get()...blah blah blah) which will
-  		 handle the case of a duplicate user and return a boolean value, respectively.
-  		 then the entire process of adding a user to the lobby Map will be within a block of
-  		 an if statement which will evaluate the return of duplicateUserHadling()
-  	*/
       duplicate = duplicateUserHadling(room_name, user)
       user_data = createUserData(user)
       rooms.get(room_name).set(socket.id, user_data)

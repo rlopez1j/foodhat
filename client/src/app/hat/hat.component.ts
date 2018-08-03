@@ -18,7 +18,7 @@ export class HatComponent implements OnInit{
   room = null
   socket = null
   lobby = new Map()
-  in_hat = new Array()
+  hat = new Array()
 
   // Google Maps API variables
   location = null
@@ -32,7 +32,6 @@ export class HatComponent implements OnInit{
 
   private joinRoom(room){ // helper function
     this.socket.emit('room', room, this.user)
-    //this.socket.emit('join', this.user)
   }
 
   ngOnInit(){
@@ -46,7 +45,7 @@ export class HatComponent implements OnInit{
 
     this.user = this.api.getUserData()
     console.log('hat: ', this.user)
-    this.room = this.user.username // might obfrustcate room name a bit
+    //this.room = this.user.username // might obfrustcate room name a bit
 
     this.socket = socketIO('http://localhost:3000')
     this.route.queryParams.subscribe(params=>{ // this is how invitations are going to be handled
@@ -59,6 +58,12 @@ export class HatComponent implements OnInit{
       }
     })
     // socket.io event handlers
+    // gets the randomly-generated room name fromt he server
+    this.socket.on('room-name', (room_name)=>{
+     this.room = room_name
+     console.log('room-name: ', room_name)
+   })
+
     this.socket.on('update-lobby', (data, index)=>{ // get triggered when any users enter
       this.lobby.set(index, data) // adds the user in the lobby<Map>
       console.log("new user: ", this.lobby)
@@ -66,8 +71,7 @@ export class HatComponent implements OnInit{
 
     this.socket.on('update-hat', (choice)=>{ // gets choice from any given user
       console.log(choice)
-      this.in_hat.push(choice)
-      //this.in_hat = this.in_hat
+      this.hat.push(choice)
     })
 
     this.socket.on('create-lobby', (new_lobby)=>{ // only gets triggered once when the this.user enters
@@ -78,7 +82,7 @@ export class HatComponent implements OnInit{
     // this is used to remove choices from users that have disconnected from the hat
     this.socket.on('remove-disconnected',(removed_user)=>{
       console.log('removed: ', removed_user)
-      this.in_hat = this.in_hat.filter(data => data.user != removed_user)
+      this.hat = this.hat.filter(data => data.user != removed_user)
     })
   }
 
@@ -89,7 +93,7 @@ export class HatComponent implements OnInit{
     console.log('open: ', restaurant.hours.open_now, ' hours: ', restaurant.hours.weekday_text)
     this.socket.emit('add-to-hat', restaurant, this.user, this.room)
     restaurant['user'] = this.user.name
-    this.in_hat.push(restaurant)
+    this.hat.push(restaurant)
     // add it to ui
   }
 
@@ -113,7 +117,7 @@ export class HatComponent implements OnInit{
         var list = Array()
         restaurants.forEach((data, index)=>{ // make restaurant filtering better
           if(data.name.toLowerCase().indexOf(this.search_term) != -1){ // test more, but might use to filter better
-            if(list.length < 4){
+            if(list.length < 10){
               list.push({
                 name: data.name,
                 address: data.vicinity,
@@ -142,7 +146,7 @@ export class HatComponent implements OnInit{
   }
 
   private disconnect(){
-    console.log(this.in_hat)
+    console.log(this.hat)
     this.socket.emit('disconnect-client', this.room)
     window.location.href='/' // this might be changed in the future
   }
