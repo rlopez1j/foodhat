@@ -29,6 +29,10 @@ export class HomePageComponent implements OnInit {
         this.api.changeUserData(data)
         this.user = this.api.getUserData()
 
+        this.notifications.getPermission(this.user)
+        //this.notifications.pollToken(this.user)
+        this.notifications.receiveNotifications()
+
         this.route.queryParams.subscribe(params=>{
           if(params.room){
             this.startSocket()
@@ -39,10 +43,6 @@ export class HomePageComponent implements OnInit {
       this.user = this.api.getUserData()
       console.log('no refresh: ', this.user)
     }
-
-    this.notifications.getPermission(this.user)
-    //this.notifications.pollToken(this.user)
-    //this.notifications.receiveNotifications()
   }
 
   // connects to socket.io directly through angular

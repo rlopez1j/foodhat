@@ -31,9 +31,7 @@ module.exports = {
       firestore.collection('history').where(user, '==', true)
       .get()
       .then(history =>{
-        history.forEach((hat)=>{
-          user_history.push(hat.data())
-        })
+        history.forEach((hat)=> user_history.push(hat.data()))
       }).catch((err)=>{
         console.log(err)
         reject(err)
@@ -62,7 +60,7 @@ module.exports = {
             firestore.collection('users').where('username', '==', friend_username)
             .get()
             .then((friend_data)=>{
-
+              // update to use getProfile() method
               friend_data.forEach((friend)=>{
                 friends_list.push({
                   username: friend.data().username,
@@ -95,6 +93,7 @@ module.exports = {
       firestore.collection('users').doc(email)
       .update({username: new_username})
       .then(result =>{
+
         if(result){ // if result is null, then database was not updated
           resolve(true) // json coomunicate w front-end
         } else{
@@ -103,6 +102,45 @@ module.exports = {
       }).catch(err =>{ // hopefully this code will never run
         console.log('error: ', err)
         reject(err)
+      })
+    })
+  },
+
+  getUserProfile: (username, get_email=false)=>{
+    return new Promise((resolve, reject)=>{
+      firestore.collection('users').where('username', '==', username)
+      .get()
+      .then((user_data)=>{
+
+        user_data.forEach((data)=>{
+          profile = {
+            username: data.data().username,
+            name: data.data().name,
+            photo: data.data().photo
+          }
+          if(get_email == true)
+            profile['email'] = data.data().email
+          resolve(profile)
+        })
+      }).catch((err)=>{
+        console.log('error: ', err)
+        reject(err)
+      })
+    })
+  },
+
+  getFCM: (username)=>{
+    return new Promise((resolve, reject)=>{
+      module.exports.getUserProfile(username, get_email=true)
+      .then((profile)=>{
+        firestore.collection('fcm').doc(profile.email)
+        .get()
+        .then((fcm)=>{
+          resolve(fcm.data().fcm_token)
+        }).catch((err)=>{
+          console.log('error: ', err)
+          reject(err)
+        })
       })
     })
   }

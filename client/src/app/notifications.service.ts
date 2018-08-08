@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core'
-import { AngularFirestore } from 'angularfire2/firestore'
+import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore'
 import * as firebase from 'firebase'
 import { Subject } from 'rxjs'
+import { map, switchMap } from 'rxjs/operators'
 /**
     NOT FUNCTIONAL YET.
 
@@ -29,7 +30,7 @@ export class NotificationsService{
     })
     .then((token)=>{
       console.log('token: ', token)
-      //this.saveToken(user, token)
+      this.saveToken(user, token)
     })
     .catch((err)=>{
       console.log('error: ', err)
@@ -50,15 +51,13 @@ export class NotificationsService{
   }
 
   private saveToken(user, token): void{
-    // figure what '|| {}' means, and change vars to fit my architecture
-    const current_tokens = user.fcmTokens || {}
-    if(!current_tokens[token]){ // it's an array?
-      // might change this to fit my own architecture and run from backend
-      // is it better to call backend to do this, or do it directly from angular?
-      const user_ref = this.db.collection('users').doc(user.uid)
-      const tokens = { ...current_tokens, [token]: true}
-      user_ref.update({fcmTokens: tokens})
-    }
+    var fcm_ref = this.db.collection<string>('fcm').doc(user.email)
+
+    fcm_ref.valueChanges().subscribe((current_token) =>{
+      if(current_token != token){
+        fcm_ref.update({fcm_token: token})
+      }
+    })
   }
 
   receiveNotifications(){

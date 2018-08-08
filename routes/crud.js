@@ -1,6 +1,8 @@
 const router = require('express').Router()
+const request = require('request')
 const db = require('../firebase')
 const firebase = require('../local-firebase-api')
+const notification_hander = require('../notifications')
 
 router.get('/profile', (req, res)=>{
   console.log('user session data requested') // for debugging
@@ -50,6 +52,12 @@ router.post('/create-username', (req, res)=>{ // maybe change name of route
   }, (err)=>{
     console.log(err)
   })
+})
+
+router.post('/send-notification', (req, res)=>{
+  notification_hander.sendNotification(/*req.user.data().username real one */ req.body.username, req.body.receiver, req.body.room )
+  .then(resp => res.send(resp))
+  .catch(err => res.send(err))
 })
 
 module.exports = router
