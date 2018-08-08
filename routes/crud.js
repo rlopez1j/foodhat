@@ -55,7 +55,7 @@ router.post('/create-username', (req, res)=>{ // maybe change name of route
 })
 
 router.post('/send-notification', (req, res)=>{
-  notification_hander.sendNotification(/*req.user.data().username real one */ req.body.username, req.body.receiver, req.body.room )
+  notification_hander.sendNotification(req.user.data().username, req.body.receiver, req.body.room )
   .then(resp => res.send(resp))
   .catch(err => res.send(err))
 })
