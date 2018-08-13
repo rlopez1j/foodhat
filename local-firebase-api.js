@@ -1,5 +1,39 @@
 const firestore = require('./firebase')
 
+function addToOutgoing(sender, requested){
+  return new Promise((resolve, reject)=>{
+    firestore.collection('friends').doc(sender)
+    .update({outgoing_requests: firestore.FieldValue.arrayUnion(requested)})
+    .then((modified)=>{
+      if(modified){
+        resolve(true)
+      } else{
+        resolve(false)
+      }
+    }).catch((err)=>{
+      console.log('error', err)
+      reject(err)
+    })
+  })
+}
+
+function addToIncoming(reqested, sender){
+  return new Promise((resolve, reject)=>{
+    firestore.collection('friends').doc(requested)
+    .update({incoming_requests: firestore.FieldValue.arrayUnion(sender)})
+    .then((modified)=>{
+      if(modified){
+        resolve(true)
+      } else{
+        resolve(false)
+      }
+    }).catch((err)=>{
+      console.log('error: ', err)
+      reject(err)
+    })
+  })
+}
+
 module.exports = {
   // checks if a 'username' is in a 'user' collection
   isUsernameAvailable: (username)=>{
@@ -115,6 +149,7 @@ module.exports = {
         user_data.forEach((data)=>{
           profile = {
             username: data.data().username,
+            id: data.data().id,
             name: data.data().name,
             photo: data.data().photo
           }
@@ -141,6 +176,32 @@ module.exports = {
           console.log('error: ', err)
           reject(err)
         })
+      })
+    })
+  },
+
+  sendFriendRequest: (sender, requested)=>{
+    return new Promise((resolve, reject)=>{
+      addToOutgoing(sender, requested)
+      .get((added)=>{
+        if(added){
+          addToIncoming(requested, sender)
+          .get((added)=>{
+            if(added){
+              resolve(true)
+            } else{
+              resolve(false)
+            }
+          }).catch((err)=>{
+            console.log('error: ', err)
+            reject(err)
+          })
+        } else{
+          resolve(false)
+        }
+      }).catch((err)=>{
+        console.log('error: ', err)
+        reject(err)
       })
     })
   }

@@ -12,11 +12,7 @@ router.get('/profile', (req, res)=>{
 router.get('/check-username', (req, res)=>{
   firebase.isUsernameAvailable(req.query.username)
   .then((avaiable)=>{
-    if(avaiable){
-      res.send({avaiable: true})
-    } else{
-      res.send({avaiable: false})
-    }
+    res.send({avaiable: avaiable})
   }, (err)=>{
     console.log(err)
   })
@@ -44,11 +40,7 @@ router.get('/get-friends-list', (req, res)=>{
 router.post('/create-username', (req, res)=>{ // maybe change name of route
   firebase.modifyUsername(req.user.data().email, req.body.username)
   .then((modified)=>{
-    if(modified){
-      res.send({success: true})
-    } else{
-      res.send({success: false}) // hopefully this is never sent
-    }
+    res.send({success: modified})
   }, (err)=>{
     console.log(err)
   })
@@ -58,6 +50,23 @@ router.post('/send-notification', (req, res)=>{
   notification_hander.sendNotification(req.user.data().username, req.body.receiver, req.body.room )
   .then(resp => res.send(resp))
   .catch(err => res.send(err))
+})
+
+router.post('/send-request', (req, res)=>{
+  firebase.sendFriendRequest(req.user.data().id, req.body.requested)
+  .then((sent)=>{
+    res.send({sent: sent})
+  }, (err)=>{
+    console.log(err)
+  })
+})
+
+router.post('/accept_request', (req, res)=>{
+  // firebase local api that makes db changes
+})
+
+router.post('/reject_request', (req, res)=>{
+  // firebase local api that makes db changes
 })
 
 module.exports = router

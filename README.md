@@ -17,31 +17,52 @@ Creating foodhat using node.js, express, angular, and socket.io
 
 ## TODO:
 <ol>
-  <li> Brainstorm UI
+  <li>Brainstorm UI
     <ul><li>make things into modals</li>
     <li>animations</li></ul>
-    </li>
+  </li>
   <br>
+
   <li>Work on Socket.IO randomize algorithm</li>
   <br>
+
   <li>Design user interactions
-  <ul><li> who can add who to hats</li>
-  <li> decide how many restaurants each user can add</li>
-  <li> timeouts?</li>
-  <li> privacy settings(?)</li></ul>
+    <ul><li> who can add who to hats</li>
+    <li> decide how many restaurants each user can add</li>
+    <li> timeouts?</li>
+    <li> privacy settings(?)</li></ul>
   </li>
   <br>
+
   <li> Create the actual functionality of the app:
-  <ul><li>displaying 'winning' restaurant</li></ul>
+    <ul><li>displaying 'winning' restaurant</li></ul>
   </li>
   <br>
-  <li> Work on notifications</li>
-  <ul><li>requires deployment</li></ul>
+
+  <li>Work on notifications
+    <ul><li>create notifications for different events</li></ul>
+  </li>
   <br>
+
+  <li>
+    Update database schema
+    <ul>
+      <li>
+        remove email from database, and use a firestore-generated uid instead
+      </li>
+      <li>
+        update methods in local firestore api to reflect the schema changes
+      </li>
+    </ul>
+  </li>
+  <br>
+
   <li> Have a live MVP</li>
   <br>
+
   <li> Update ComponentFactory to Angular Elements</li>
   <br>
+
   <li> Remove unnecessary files.</li>
 </ol>
 
@@ -54,4 +75,4 @@ Creating foodhat using node.js, express, angular, and socket.io
 
 ### PROGRESS:
 
-Users can create and join a hat. Users can add restaurants to the hat. All hat functions except selecting a winning restaurant have been completed.
+All hat functions except selecting a winning restaurant have been completed. Notifications are functional. Need to work on interactions within users
