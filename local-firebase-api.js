@@ -75,12 +75,12 @@ module.exports = {
   },
 
   // retrives a user's friends list along their information
-  getFriendsDetails: (email)=>{
+  getFriendsDetails: (id)=>{
     return new Promise(function(resolve, reject){
       friends_list = new Array()
 
       // firestore operations and logic
-      var test = firestore.collection('friends').doc(email)
+      var test = firestore.collection('friends').doc(id)
       .get()
       .then(collection =>{
 
@@ -122,9 +122,9 @@ module.exports = {
   },
 
   // updates the 'username' field of a user
-  modifyUsername: (email, new_username)=>{
+  modifyUsername: (id, new_username)=>{
     return new Promise(function(resolve, reject){
-      firestore.collection('users').doc(email)
+      firestore.collection('users').doc(id)
       .update({username: new_username})
       .then(result =>{
 
@@ -140,7 +140,7 @@ module.exports = {
     })
   },
 
-  getUserProfile: (username, get_email=false)=>{
+  getUserProfile: (username)=>{
     return new Promise((resolve, reject)=>{
       firestore.collection('users').where('username', '==', username)
       .get()
@@ -153,8 +153,6 @@ module.exports = {
             name: data.data().name,
             photo: data.data().photo
           }
-          if(get_email == true)
-            profile['email'] = data.data().email
           resolve(profile)
         })
       }).catch((err)=>{
@@ -166,20 +164,17 @@ module.exports = {
 
   getFCM: (username)=>{
     return new Promise((resolve, reject)=>{
-      module.exports.getUserProfile(username, get_email=true)
-      .then((profile)=>{
-        firestore.collection('fcm').doc(profile.email)
-        .get()
-        .then((fcm)=>{
-          resolve(fcm.data().fcm_token)
-        }).catch((err)=>{
-          console.log('error: ', err)
-          reject(err)
-        })
+      firestore.collection('fcm').doc(profile.id)
+      .get()
+      .then((fcm)=>{
+        resolve(fcm.data().fcm_token)
+      }).catch((err)=>{
+        console.log('error: ', err)
+        reject(err)
       })
     })
   },
-
+// does this even need to return a promise?
   sendFriendRequest: (sender, requested)=>{
     return new Promise((resolve, reject)=>{
       addToOutgoing(sender, requested)
@@ -188,6 +183,7 @@ module.exports = {
           addToIncoming(requested, sender)
           .get((added)=>{
             if(added){
+              // send notification to requested
               resolve(true)
             } else{
               resolve(false)
@@ -204,5 +200,17 @@ module.exports = {
         reject(err)
       })
     })
+  },
+
+  acceptFriendRequest: (user, user_accepted)=>{
+    user_ref = firestore.collection('friends').doc(user)
+    accepted_ref = firestore.collection('friends').doc(user_accepted)
+
+    user_ref.update({incoming_requests: firestore.FieldValue.arrayRemove(user_accepted)})
+    user_ref.update({friends_list: firestore.FieldValue.arrayUnion(user_accepted)})
+
+    accepted_ref.update({outgoing_requests: firestore.FieldValue.arrayRemove(user)})
+    accepted_ref.update({friends_list: firestore.FieldValue.arrayUnion(user_accepted)})
+    // send notification to user_accepted
   }
 }

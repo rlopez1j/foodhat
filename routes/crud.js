@@ -28,7 +28,7 @@ router.get('/get-history', (req, res)=>{
 })
 
 router.get('/get-friends-list', (req, res)=>{
-  firebase.getFriendsDetails(/*req.user.data().email*/ req.query.email)
+  firebase.getFriendsDetails(/*req.user.data().id*/ req.query.id)
   .then((friends_details)=>{
     res.send(friends_details)
   }, (err)=>{
@@ -38,7 +38,7 @@ router.get('/get-friends-list', (req, res)=>{
 })
 
 router.post('/create-username', (req, res)=>{ // maybe change name of route
-  firebase.modifyUsername(req.user.data().email, req.body.username)
+  firebase.modifyUsername(req.user.data().id, req.body.username)
   .then((modified)=>{
     res.send({success: modified})
   }, (err)=>{
@@ -47,15 +47,15 @@ router.post('/create-username', (req, res)=>{ // maybe change name of route
 })
 
 router.post('/send-notification', (req, res)=>{
-  notification_hander.sendNotification(req.user.data().username, req.body.receiver, req.body.room )
+  notification_hander.sendNotification(req.user.data().id, req.body.receiver, req.body.room )
   .then(resp => res.send(resp))
   .catch(err => res.send(err))
 })
 
 router.post('/send-request', (req, res)=>{
   firebase.sendFriendRequest(req.user.data().id, req.body.requested)
-  .then((sent)=>{
-    res.send({sent: sent})
+  .then((req_sent)=>{
+    res.send({sent: req_sent})
   }, (err)=>{
     console.log(err)
   })
@@ -63,6 +63,7 @@ router.post('/send-request', (req, res)=>{
 
 router.post('/accept_request', (req, res)=>{
   // firebase local api that makes db changes
+  firebase.acceptFriendRequest(req.user.data().id, req.body.user_accepted)
 })
 
 router.post('/reject_request', (req, res)=>{

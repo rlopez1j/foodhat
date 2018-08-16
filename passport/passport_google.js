@@ -22,7 +22,7 @@ passport.use(
   },
   (access_token, refresh_token, profile, done)=>{
       // check if user exists
-      db.collection('users').doc(profile.emails[0].value)
+      db.collection('users').doc(profile.id)
       .get()
       .then(user =>{
 
@@ -32,7 +32,6 @@ passport.use(
             username: null,
             name: profile.name.givenName,
             photo: profile.photos[0].value,
-            email: profile.emails[0].value
           }
 
           friends = {
@@ -41,16 +40,25 @@ passport.use(
             pending_requests: [null]
           }
 
+          fcm = {
+            fcm_token: null
+          }
+
           new_user.photo = new_user.photo.slice(0, -6) // trim ?sz=50 from photo url
-          db.collection('users').doc(new_user.email)
+          db.collection('users').doc(new_user.id)
           .set(new_user)
           .then(()=>{
 
-            db.collection('friends').doc(new_user.email)
+            db.collection('friends').doc(new_user.id)
             .set(friends)
             .then(()=>{
-              console.log('added to database'); // not really needed :rolling-eyes-emoji
-              done(null, new_user)
+
+              db.collection('fcm').doc(new_user.id)
+              .set(fcm)
+              .then(()=>{
+                console.log('added to database') // not really needed :rolling-eyes-emoji
+                done(null, new_user)
+              })
             })
           })
         } else{

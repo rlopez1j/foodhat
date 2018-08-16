@@ -11,7 +11,7 @@ router.get('/signin-status', (req, res)=>{
 })
 
 // log in with google
-router.get('/oauth', passport.authenticate('google', {scope: ['profile', 'email']}))
+router.get('/oauth', passport.authenticate('google', {scope: ['profile']}))
 
 // this will log out users
 router.get('/logout', (req, res)=>{

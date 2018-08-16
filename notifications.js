@@ -1,6 +1,8 @@
 const request = require('request')
 const firebase = require('./local-firebase-api')
 //might have key in api_keys
+
+// add options
 function sendPOSTRequest(sender, fcm_token, room_name){
   request({
     url: 'https://fcm.googleapis.com/fcm/send',
@@ -26,7 +28,7 @@ function sendPOSTRequest(sender, fcm_token, room_name){
     }
   })
 }
-
+// may not need to return a promise
 module.exports = {
   sendNotification: (sender, receiver, room_name)=>{
     return new Promise(function(resolve, reject){
