@@ -22,6 +22,10 @@ export class ApiService{
   getHistory(){ return this.http.get('api/crud/get-history') }
   // gets the friend list from the db
   getFriendsList(){ return this.http.get('api/crud/get-friends-list') }
-
+  // sends friend request to user
+  sendFriendRequest(to){ return this.http.post('api/crud/send-request', {requested: to}) }
+  // accepts friend request from a user
+  acceptFriendRequest(accepted){ return this.http.post('api/crud/accept-request', {user_accepted: accepted}) }
+  // gets signin status for route guard
   getSignInStatus(): Observable<boolean>{ return this.http.get<boolean>('api/google/signin-status') }
 }

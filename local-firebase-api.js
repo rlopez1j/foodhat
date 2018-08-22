@@ -1,4 +1,12 @@
 const firestore = require('./firebase')
+const notifications = require('./notifications')
+
+/*
+TODO:
+  make sure addToOutgoing doesn't add duplicate entries
+  test & debug
+  check if some update methods need to return promise
+*/
 
 function addToOutgoing(sender, requested){
   return new Promise((resolve, reject)=>{
@@ -184,6 +192,7 @@ module.exports = {
           .get((added)=>{
             if(added){
               // send notification to requested
+              notifications.sendNotification(sender, requested, {notif_type: 'friend-request'})
               resolve(true)
             } else{
               resolve(false)
@@ -212,5 +221,15 @@ module.exports = {
     accepted_ref.update({outgoing_requests: firestore.FieldValue.arrayRemove(user)})
     accepted_ref.update({friends_list: firestore.FieldValue.arrayUnion(user_accepted)})
     // send notification to user_accepted
+    notifications.sendNotification(user_accepted, user, {notif_type: 'request-accepted'})
+  },
+
+  rejectFriendRequest: (user, user_rejected)=>{
+    user_ref = firestore.collection('friends').doc(user)
+    rejected_ref = firestore.collection('friends').doc(user_rejected)
+
+    user_ref.update({incoming_requests: firestore.FieldValue.arrayRemove(user_rejected)})
+    rejected_ref.update({outgoing_requests: firestore.FieldValue.arrayRemove(user)})
   }
+
 }

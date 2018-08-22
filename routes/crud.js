@@ -47,7 +47,7 @@ router.post('/create-username', (req, res)=>{ // maybe change name of route
 })
 
 router.post('/send-notification', (req, res)=>{
-  notification_hander.sendNotification(req.user.data().id, req.body.receiver, req.body.room )
+  notification_hander.sendNotification(req.user.data().id, req.body.receiver, req.body.options)
   .then(resp => res.send(resp))
   .catch(err => res.send(err))
 })
@@ -61,13 +61,14 @@ router.post('/send-request', (req, res)=>{
   })
 })
 
-router.post('/accept_request', (req, res)=>{
+router.post('/accept-request', (req, res)=>{
   // firebase local api that makes db changes
   firebase.acceptFriendRequest(req.user.data().id, req.body.user_accepted)
 })
 
-router.post('/reject_request', (req, res)=>{
+router.post('/reject-request', (req, res)=>{
   // firebase local api that makes db changes
+  firebase.rejectFriendRequest(req.user.data().id, req.body.user_rejected)
 })
 
 module.exports = router
