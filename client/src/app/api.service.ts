@@ -26,6 +26,14 @@ export class ApiService{
   sendFriendRequest(to){ return this.http.post('api/crud/send-request', {requested: to}) }
   // accepts friend request from a user
   acceptFriendRequest(accepted){ return this.http.post('api/crud/accept-request', {user_accepted: accepted}) }
+  // sends hat invitation to user
+  sendHatInvitation(user, room_name){
+    options = {
+      notif_type: 'hat-invitation',
+      room_name: room_name
+    }
+    return this.http.post('api/crud/send-notification', {receiver: user, options: options})
+  }
   // gets signin status for route guard
   getSignInStatus(): Observable<boolean>{ return this.http.get<boolean>('api/google/signin-status') }
 }
