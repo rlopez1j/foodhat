@@ -99,20 +99,9 @@ module.exports = {
 
           // iterates the friend's list and searches for friend's data with username
           collection.data().friends_list.forEach((friend_username)=>{
-            firestore.collection('users').where('username', '==', friend_username)
-            .get()
-            .then((friend_data)=>{
-              // update to use getProfile() method
-              friend_data.forEach((friend)=>{
-                friends_list.push({
-                  username: friend.data().username,
-                  name: friend.data().name,
-                  photo: friend.data().photo
-                })
-              })
-              /* `friends_list` must be sent within the scope of this promise
-              if `friends_list` is not within the scope of this promise,
-              an empty array is sent instead */
+            module.exports.getUserProfile(friend_username)
+            .then((profile)=>{
+              friends_list.push(profile)
               if(collection.data().friends_list.length == friends_list.length){
                 resolve(friends_list)
               }
@@ -170,9 +159,9 @@ module.exports = {
     })
   },
 
-  getFCM: (username)=>{
+  getFCM: (id)=>{
     return new Promise((resolve, reject)=>{
-      firestore.collection('fcm').doc(profile.id)
+      firestore.collection('fcm').doc(id)
       .get()
       .then((fcm)=>{
         resolve(fcm.data().fcm_token)
