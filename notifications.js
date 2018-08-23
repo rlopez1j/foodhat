@@ -8,19 +8,19 @@ function sendPOSTRequest(sent_from, fcm_token, options){
 
   switch(options.notif_type){
     case 'hat-invitation':
-      notif_args.title: 'Hat Invitation!'
-      notif_args.body: '@'+sent_from+' has invited you to join a hat!'
-      notif_args.click_action: 'localhost:4200/?room='+options.room_name
+      notif_args.title = 'Hat Invitation!'
+      notif_args.body = '@'+sent_from+' has invited you to join a hat!'
+      notif_args.click_action = 'localhost:4200/?room='+options.room_name
       break
     case 'friend-request':
-      notif_args.title: 'Friend Request!'
-      notif_args.body: '@'+sent_from+' has sent you a friend request!'
-      notif_args.click_action: 'localhost:4200/requests' // need to build this
+      notif_args.title = 'Friend Request!'
+      notif_args.body = '@'+sent_from+' has sent you a friend request!'
+      notif_args.click_action = 'localhost:4200/requests' // need to build this
       break
-    case: 'request-accepted':
-      notif_args.title: 'Friend Request Accpted!'
-      notif_args.body: '@'+sent_from+' has accepted your friend request!'
-      notif_args.click_action: 'localhost:4200' // to user profile?
+    case 'request-accepted':
+      notif_args.title = 'Friend Request Accpted!'
+      notif_args.body = '@'+sent_from+' has accepted your friend request!'
+      notif_args.click_action = 'localhost:4200' // to user profile?
       break
   }
 
