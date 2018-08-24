@@ -28,7 +28,7 @@ export class ApiService{
   acceptFriendRequest(accepted){ return this.http.post('api/crud/accept-request', {user_accepted: accepted}) }
   // sends hat invitation to user
   sendHatInvitation(user, room_name){
-    options = {
+    var options = {
       notif_type: 'hat-invitation',
       room_name: room_name
     }

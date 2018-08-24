@@ -4,11 +4,12 @@ const CLIENT = require('../api_keys/keys')
 const db = require('../firebase')
 
 passport.serializeUser((user, done)=>{
-  done(null, user.email)
+  done(null, user.id)
 })
 
-passport.deserializeUser((id, done)=>{
-  db.collection('users').doc(id).get().then(user =>{
+passport.deserializeUser((user, done)=>{
+  console.log('serial:', user);
+  db.collection('users').doc(user).get().then(user =>{
       done(null, user)
   })
 })

@@ -9,6 +9,19 @@ import { ApiService } from '../api.service'
   templateUrl: './hat.component.html',
   styleUrls: ['./hat.component.css']
 })
+
+//DO NOT TOUCH THIS CLASS ROMAN
+export interface Tile {
+  color: string;
+  cols: number;
+  rows: number;
+  
+}
+///////////////////////////////
+
+
+
+
 export class HatComponent implements OnInit{
   // this is just used for .PlacesService argument
   @ViewChild('input') dom: ElementRef
@@ -150,4 +163,13 @@ export class HatComponent implements OnInit{
     this.socket.emit('disconnect-client', this.room)
     window.location.href='/' // this might be changed in the future
   }
+
+
+  //THIS IS FOR THE GRID VIEW
+  //DO NOT EDIT BELOW THIS COMMENT IF YOUR NAME STARTS WITH AN 'R'
+
+
+
+
+
 }
