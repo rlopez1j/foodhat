@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
-import { } from '@types/googlemaps'
+import { } from 'googlemaps'
 import * as socketIO from 'socket.io-client'
 import { ApiService } from '../api.service'
 
@@ -10,15 +10,15 @@ import { ApiService } from '../api.service'
   styleUrls: ['./hat.component.css']
 })
 
-//DO NOT TOUCH THIS CLASS ROMAN
-export interface Tile {
-  color: string;
-  cols: number;
-  rows: number;
-  
-}
-///////////////////////////////
-
+// //DO NOT TOUCH THIS CLASS ROMAN
+// export interface Tile {
+//   color: string;
+//   cols: number;
+//   rows: number;
+//
+// }
+// ///////////////////////////////
+//
 
 
 
