@@ -1,4 +1,5 @@
 const firestore = require('./firebase')
+FieldValue = require('firebase-admin').firestore.FieldValue
 const notifications = require('./notifications')
 
 /*
@@ -8,38 +9,50 @@ TODO:
   check if some update methods need to return promise
 */
 
-function addToOutgoing(sender, requested){
-  return new Promise((resolve, reject)=>{
-    firestore.collection('friends').doc(sender)
-    .update({outgoing_requests: firestore.FieldValue.arrayUnion(requested)})
-    .then((modified)=>{
-      if(modified){
-        resolve(true)
-      } else{
-        resolve(false)
-      }
-    }).catch((err)=>{
-      console.log('error', err)
-      reject(err)
-    })
-  })
+//probably need to make this a promise
+function addSearchTerms(id, username){
+  firestore.collection('users').doc(id)
+    .update({'search':
+      FieldValue.delete()})
+
+  for(i = 1; i < username.length+1; i++){
+    firestore.collection('users').doc(id)
+      .update({'search':
+        FieldValue.arrayUnion(username.slice(0,i))})
+  }
 }
 
-function addToIncoming(reqested, sender){
-  return new Promise((resolve, reject)=>{
-    firestore.collection('friends').doc(requested)
-    .update({incoming_requests: firestore.FieldValue.arrayUnion(sender)})
-    .then((modified)=>{
-      if(modified){
-        resolve(true)
-      } else{
-        resolve(false)
-      }
-    }).catch((err)=>{
-      console.log('error: ', err)
-      reject(err)
-    })
-  })
+function addToOutgoing(sender, requested){
+  firestore.collection('friends').doc(sender)
+  .update({'outgoing_requests':
+    FieldValue.arrayUnion(requested)})
+}
+
+function addToIncoming(requested, sender){
+  firestore.collection('friends').doc(requested)
+  .update({'incoming_requests':
+    FieldValue.arrayUnion(sender)})
+}
+
+function incomingToFriend(user, accepted){
+  batch = firestore.batch()
+  user_ref = firestore.collection('friends').doc(user)
+
+  batch.update(user_ref, {'incoming_requests':
+    FieldValue.arrayRemove(accepted)})
+  batch.update(user_ref, {'friends_list':
+    FieldValue.arrayUnion(accepted)})
+  batch.commit()
+}
+
+function outgoingToFriend(user, accepted){
+  batch = firestore.batch()
+  user_ref = firestore.collection('friends').doc(user)
+  batch.update(user_ref, {'outgoing_requests':
+    FieldValue.arrayRemove(accepted)})
+  batch.update(user_ref, {'friends_list':
+    FieldValue.arrayUnion(accepted)})
+  batch.commit()
 }
 
 module.exports = {
@@ -126,6 +139,7 @@ module.exports = {
       .then(result =>{
 
         if(result){ // if result is null, then database was not updated
+          addSearchTerms(id, new_username)
           resolve(true) // json coomunicate w front-end
         } else{
           resolve(false)
@@ -173,52 +187,47 @@ module.exports = {
   },
 // does this even need to return a promise?
   sendFriendRequest: (sender, requested)=>{
-    return new Promise((resolve, reject)=>{
-      addToOutgoing(sender, requested)
-      .get((added)=>{
-        if(added){
-          addToIncoming(requested, sender)
-          .get((added)=>{
-            if(added){
-              // send notification to requested
-              notifications.sendNotification(sender, requested, {notif_type: 'friend-request'})
-              resolve(true)
-            } else{
-              resolve(false)
-            }
-          }).catch((err)=>{
-            console.log('error: ', err)
-            reject(err)
-          })
-        } else{
-          resolve(false)
-        }
-      }).catch((err)=>{
-        console.log('error: ', err)
-        reject(err)
-      })
-    })
+    addToOutgoing(sender, requested)
+    addToIncoming(requested, sender)
   },
 
   acceptFriendRequest: (user, user_accepted)=>{
-    user_ref = firestore.collection('friends').doc(user)
-    accepted_ref = firestore.collection('friends').doc(user_accepted)
-
-    user_ref.update({incoming_requests: firestore.FieldValue.arrayRemove(user_accepted)})
-    user_ref.update({friends_list: firestore.FieldValue.arrayUnion(user_accepted)})
-
-    accepted_ref.update({outgoing_requests: firestore.FieldValue.arrayRemove(user)})
-    accepted_ref.update({friends_list: firestore.FieldValue.arrayUnion(user_accepted)})
-    // send notification to user_accepted
-    notifications.sendNotification(user_accepted, user, {notif_type: 'request-accepted'})
+    incomingToFriend(user, user_accepted)
+    outgoingToFriend(user_accepted, user)
   },
 
   rejectFriendRequest: (user, user_rejected)=>{
     user_ref = firestore.collection('friends').doc(user)
     rejected_ref = firestore.collection('friends').doc(user_rejected)
 
-    user_ref.update({incoming_requests: firestore.FieldValue.arrayRemove(user_rejected)})
-    rejected_ref.update({outgoing_requests: firestore.FieldValue.arrayRemove(user)})
+    user_ref.update({incoming_requests: FieldValue.arrayRemove(user_rejected)})
+    rejected_ref.update({outgoing_requests: FieldValue.arrayRemove(user)})
+  },
+
+  // modify to work with friends only
+  searchUser: (search_term)=>{
+    return new Promise((resolve, reject)=>{
+      firestore.collection('users').where('search', 'array-contains', search_term)
+      .get()
+      .then((user_list)=>{
+        if(user_list._size > 0){
+          user_list._docs().forEach((data)=>{
+            profile = {
+              username: data.data().username,
+              id: data.data().id,
+              name: data.data().name,
+              photo: data.data().photo
+            }
+          })
+          resolve(profile)
+        } else{
+          resolve(null)
+        }
+      }).catch((err)=>{
+        console.log('err: ', err)
+        reject(err)
+      })
+    })
   }
 
 }

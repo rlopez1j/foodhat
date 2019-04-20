@@ -33,12 +33,13 @@ passport.use(
             username: null,
             name: profile.name.givenName,
             photo: profile.photos[0].value,
+            search: []
           }
 
           friends = {
-            friend_requests: [null],
-            friends_list: [null],
-            pending_requests: [null]
+            friend_requests: [],
+            friends_list: [],
+            pending_requests: []
           }
 
           fcm = {

@@ -28,7 +28,7 @@ router.get('/get-history', (req, res)=>{
 })
 
 router.get('/get-friends-list', (req, res)=>{
-  firebase.getFriendsDetails(/*req.user.data().id*/ req.query.id)
+  firebase.getFriendsDetails(req.user.data().id, req.query.id)
   .then((friends_details)=>{
     res.send(friends_details)
   }, (err)=>{
@@ -52,18 +52,23 @@ router.post('/send-notification', (req, res)=>{
   .catch(err => res.send(err))
 })
 
+
+router.get('/search', (req, res)=>{
+  // if req.user to make sure user search only comes from signed-in users
+  firebase.searchUser(req.body.search_term)
+  .then(user_info => res.send(user_info))
+})
+
+// needs a bit more testing
 router.post('/send-request', (req, res)=>{
   firebase.sendFriendRequest(req.user.data().id, req.body.requested)
-  .then((req_sent)=>{
-    res.send({sent: req_sent})
-  }, (err)=>{
-    console.log(err)
-  })
+  notification_hander.sendNotification(sender, requested, {notif_type: 'friend-request'})
 })
 
 router.post('/accept-request', (req, res)=>{
   // firebase local api that makes db changes
   firebase.acceptFriendRequest(req.user.data().id, req.body.user_accepted)
+  notifications.sendNotification(user_accepted, user, {notif_type: 'request-accepted'})
 })
 
 router.post('/reject-request', (req, res)=>{
