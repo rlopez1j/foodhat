@@ -1,6 +1,6 @@
 const passport = require('passport')
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
-const CLIENT = require('../api_keys/keys')
+const CLIENT = require('../../api_keys/keys')
 const db = require('../firebase')
 
 passport.serializeUser((user, done)=>{

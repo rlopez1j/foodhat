@@ -60,6 +60,7 @@ export class NotificationsService{
     })
   }
 
+  // do stuff to front end with this
   receiveNotifications(){
     this.notifications.onMessage((payload)=>{
       console.log('notif: ', payload)

@@ -1,6 +1,6 @@
 const firebase = require('firebase-admin')
-const admin_info = require('./api_keys/firebase_admin.json')
-const FIREBASE = require('./api_keys/keys')
+const admin_info = require('../api_keys/firebase-admin.json')
+const FIREBASE = require('../api_keys/keys')
 
 firebase.initializeApp({ // this initializes and authenticates firebase admin
 	/*

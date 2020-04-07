@@ -1,4 +1,4 @@
-const firestore = require('./firebase')
+const firestore = require('../firebase')
 FieldValue = require('firebase-admin').firestore.FieldValue
 const notifications = require('./notifications')
 

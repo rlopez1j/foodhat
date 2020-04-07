@@ -1,8 +1,8 @@
 const router = require('express').Router()
 const request = require('request')
 const db = require('../firebase')
-const firebase = require('../local-firebase-api')
-const notification_hander = require('../notifications')
+const firebase = require('../services/local-firebase-api')
+const notification_hander = require('../services/notifications')
 
 router.get('/profile', (req, res)=>{
   console.log('user session data requested') // for debugging
