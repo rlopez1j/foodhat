@@ -9,7 +9,7 @@ const body_parser = require('body-parser');
 const routes = require('./routes/routing');
 const landing_pages = require('./routes/landing');
 const google = require('./routes/google');
-const crud = require('./routes/crud').default;
+const crud = require('./routes/crud');
 const passport_setup = require('./services/passport_google');
 const KEYS = require('../api_keys/keys');
 
@@ -35,7 +35,6 @@ app.use(cors({
 // routing
 app.use('/api/google', google);
 app.use('/api/crud', crud);
-app.use(app.router)
 
 // starts the node server
 var server = app.listen(3000, function(){
