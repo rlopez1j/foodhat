@@ -7,5 +7,5 @@ Creating foodhat using node.js, express, angular, and socket.io
    - Use SOLID principles where applicable
    - Make code more readable
 - I will switch from firestore to MongoDB
-- I will add Redis to add scalability to Socket.IO to work with load-balancing
+- I will add Redis to add scalability to Socket.IO by allowing it to work with load-balancing
 - Will use OOP principles and use typecast in Angular code.
