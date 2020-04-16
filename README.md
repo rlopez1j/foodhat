@@ -3,6 +3,7 @@ Creating foodhat using node.js, express, angular, and socket.io
 
 ## I will essentially be rewriting this application because it is a mess right now.
 **Context: I wrote this application prior to working professionally and knowing what good software looks like**
+**Changes can be seen in dev and feature branches**
 - Will refactor heavily
    - Use SOLID principles where applicable
    - Make code more readable
