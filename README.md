@@ -1,9 +1,7 @@
 # foodhat
 Creating foodhat using node.js, express, angular, and socket.io
 
-
-## TODO:
-### I will essentially be rewriting this application because it is a mess right now.
+## I will essentially be rewriting this application because it is a mess right now.
 **Context: I wrote this application prior to working professionally and knowing what good software looks like**
 - Will refactor heavily
    - Use SOLID principles where applicable
