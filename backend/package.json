@@ -20,6 +20,7 @@
     "body-parser": "^1.18.3",
     "cookie-session": "^2.0.0-beta.3",
     "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
     "ejs": "^2.6.1",
     "express": "^4.16.4",
     "firebase-admin": "^7.0.0",
@@ -30,6 +31,9 @@
     "passport": "^0.4.0",
     "passport-google-oauth20": "^1.0.0",
     "randomstring": "^1.1.5",
-    "socket.io": "^2.2.0"
+    "redis": "^3.0.2",
+    "socket.io": "^2.2.0",
+    "socket.io-redis": "^5.2.0",
+    "uuid": "^7.0.3"
   }
 }
