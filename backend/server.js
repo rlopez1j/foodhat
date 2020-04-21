@@ -34,8 +34,8 @@ app.use('/api/google', google);
 app.use('/api/crud', crud);
 
 // starts the node server
-var server = app.listen(process.env.PORT, function(){
-	console.log('listening on port 3000...');
+var server = app.listen(process.env.APP_PORT, function(){
+	console.log(`listening on port ${process.env.APP_PORT}...`);
 });
 
 

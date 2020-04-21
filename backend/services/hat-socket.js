@@ -40,46 +40,21 @@ module.exports = function(app){
   io.on('connection', (socket) =>{
     // only comes out when we have contacted the client too
     console.log('made socket connection', socket.id);
+    console.log('number of connections', io.engine.clientsCount)
+    console.log('rooms ', io.sockets.adapter.rooms)
     const socketService = new socketIOService(io, socket)
 
-    socket.on('create-new-lobby', (user) => {
-      console.log('i am here')
+    socket.on('createNewHat', (user) => {
       socketService.createHat(user)
+      console.log('rooms ', io.sockets.adapter.rooms)
+
     })
 
-  	// connect to a room
-  	socket.on('room', (roomN, user)=>{
-      let room_name = roomN.room_name
-      console.log('room name', room_name === null, 'data', room_name)
-      if(room_name == null){
-        room_name = randomstring.generate(15)
-        console.log('room name gen', room_name)
-        io.sockets.to(socket.id).emit('room-name', room_name)
-      }
-
-  		if(!rooms.has(room_name)){
-  			rooms.set(room_name, new Map())
-  		}
-
-      duplicate = duplicateUserHadling(room_name, user)
-      user_data = createUserData(user)
-      rooms.get(room_name).set(socket.id, user_data)
-      const roomData = {room_name, user_data}
-      redisClient.set(socket.id, JSON.stringify(roomData))
-      redisClient.get(socket.id, (err, reply) => {
-        console.log('redis object', reply)
-      })
-      console.log('duplicate: ', duplicate);
-      if(duplicate){
-        console.log('sent to create-lobby');
-        io.sockets.to(room_name).emit('create-lobby', Array.from(rooms.get(room_name))) // re-does the lobby instead of being complicated
-      } else{
-        io.sockets.in(room_name).emit('update-lobby', user_data, socket.id) // sends user info to client for ui
-      }
-
-      socket.join(room_name)
-      io.sockets.to(socket.id).emit('create-lobby', Array.from(rooms.get(room_name))) // converts to array bc socket.io cant transcribe maps
-  	})
+    socket.on('addUserToHat', (user, {roomId})=>{
+      console.log('room', roomId)
+      socketService.addUserToHat(user, roomId)
+      console.log('rooms ', io.sockets.adapter.rooms)
+    })
 
   	socket.on('add-to-hat', (restaurant, user, room_name)=>{
   		restaurant['user'] = user.name
