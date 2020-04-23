@@ -8,7 +8,6 @@ const body_parser = require('body-parser');
 
 const google = require('./routes/google');
 const crud = require('./routes/crud');
-const KEYS = require('../api_keys/keys');
 
 // setup the webapp
 var app = express();
