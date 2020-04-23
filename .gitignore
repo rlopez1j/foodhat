@@ -1,3 +1,4 @@
 api_keys/
 node_modules/
 client/node_modules/
+backend/.env
