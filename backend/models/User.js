@@ -1,6 +1,6 @@
 class User {
     constructor(user){
-        this.name = user.name
+        this.displayName = user.displayName
         this.username = user.username
         this.avi = user.avi
     }

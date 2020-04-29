@@ -1,11 +1,11 @@
 require('dotenv').config()
 const express = require('express');
-const io = require('./services/hat-socket');
+const socketIO = require('./services/hat-socket');
 const cors = require('cors');
 const passport = require('passport');
 const cookie = require('cookie-session');
 const body_parser = require('body-parser');
-
+const mongoose = require('mongoose')
 const google = require('./routes/google');
 const crud = require('./routes/crud');
 
@@ -18,24 +18,23 @@ app.use(cookie({
 	keys: [process.env.SESSION_COOKIE_KEY]
 }));
 
+mongoose.connect(process.env.MONGO_CONNECTION,
+	{useNewUrlParser: true, useUnifiedTopology: true}
+)
 
 // initalize passport
 app.use(passport.initialize());
 app.use(passport.session());
 
 // use cors to allow the angular server to access the api
-app.use(cors({
-	origin: process.env.CORS_ORIGIN
-}));
+app.use(cors({ origin: process.env.FRONTEND_URL }));
 
 // routing
 app.use('/api/google', google);
 app.use('/api/crud', crud);
 
 // starts the node server
-var server = app.listen(process.env.APP_PORT, function(){
-	console.log(`listening on port ${process.env.APP_PORT}...`);
-});
+var server = app.listen(process.env.APP_PORT, () => 
+	console.log(`listening on port ${process.env.APP_PORT}...`))
 
-
-io(server);
+socketIO(server);
