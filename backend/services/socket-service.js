@@ -36,7 +36,7 @@ class SocketIOService {
 
     addRestaurantToHat(restaurant, user){
         let hatId = Object.keys(this.io.sockets.sockets[this.socket.id].rooms)[1]
-        restaurant.user = user.name
+        restaurant.user = user.displayName
         this.io.to(hatId).emit('UpdateRestaurantList', restaurant)
     }
 

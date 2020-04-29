@@ -11,13 +11,17 @@ router.get('/signin-status', (req, res)=>{
 })
 
 // log in with google
-router.get('/oauth', passport.authenticate('google', {scope: ['profile']}))
+router.get('/oauth',
+  passport.authenticate('google', {
+    scope: ['profile']
+  })
+)
 
 // this will log out users
 router.get('/logout', (req, res)=>{
   req.logout()
   req.session = null
-  res.redirect('http://localhost:4200/signup')
+  res.redirect(`${process.env.FRONTEND_URL}/signup`)
 })
 
 /* this handles the callback function from google.
@@ -29,9 +33,9 @@ router.get('/logout', (req, res)=>{
 */
 router.get('/redirect', passport.authenticate('google'), (req, res)=>{
   if(req.user.username){
-    res.redirect('http://localhost:4200/')
+    res.redirect(process.env.FRONTEND_URL)
   }else{
-    res.redirect('http://localhost:4200/create-username')
+    res.redirect(`${process.env.FRONTEND_URL}/create-username`)
   }
 })
 

@@ -11,7 +11,7 @@ class RedisService {
     async getUserListIdByHatId(id){
         let getAsync = promisify(this.redisClient.get).bind(this.redisClient)
         
-        let redisResponse = await getAsync(id)
+        let redisResponse = await getAsync(id).catch(err => console.log('Error!', err))
         let hat = new Hat(JSON.parse(redisResponse))
         
         return hat.userListId
@@ -19,7 +19,7 @@ class RedisService {
     
     async getUsersInHat(userListId){
         let gethallAsync = promisify(this.redisClient.hgetall).bind(this.redisClient)
-        let redisResults = await gethallAsync(userListId)
+        let redisResults = await gethallAsync(userListId).catch(err => console.log('Error!', err))
         if(redisResults === null){
             return []
         }

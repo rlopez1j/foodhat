@@ -25,7 +25,7 @@ module.exports = function(app){
   	socket.on('addRestaurantToHat', (restaurant)=>{
       // hardcored user obj is temporary. i will get user with jwt token in the future
       let user = new User({
-        name: 'Roman',
+        displayName: 'Roman',
         username: 'rlopez',
         avi: 'url'
       })
@@ -36,7 +36,7 @@ module.exports = function(app){
   	socket.on('disconnecting', ()=>{
       // hardcored user obj is temporary. i will get user with jwt token in the future
       let user = {
-        name: 'Roman',
+        displayName: 'Roman',
         username: 'rlopez',
         avi: 'url'
       }
