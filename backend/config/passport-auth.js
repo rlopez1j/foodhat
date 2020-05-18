@@ -9,7 +9,6 @@ passport.use('google',
     callbackURL: '/api/authentication/google-redirect'
   },
   async (accessToken, refreshToken, profile, done) => {
-
     const userReturned = await MongooseService.findUserByGoogleId(profile.id)
     console.log('user returned', userReturned)
     if(!userReturned){
@@ -17,10 +16,8 @@ passport.use('google',
         googleProfileId: profile.id,
         username: null,
         displayName: profile.name.givenName,
-        avi: profile.photos[0].value
+        avi: profile.photos[0].value // i think this is wrong lol
       })
-
-      console.log('new user', newUser)
       done(null, newUser)
     } else {
       done(null, userReturned)
