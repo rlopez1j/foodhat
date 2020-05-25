@@ -1,8 +1,9 @@
 import React, { useState, useContext, useEffect } from 'react'
-import { Route, Router } from 'react-router-dom'
+import { Route, BrowserRouter as Router } from 'react-router-dom'
 import SignUpComponent from './signup'
-import AuthorizationRoute from './authorization'
-import AuthenticationContextProvider, { AuthenticationContext } from '../contexts/authentication-context'
+import AuthorizationRoute from './authorization-route'
+import { AuthenticationContext } from '../contexts/authentication-context'
+import AuthorizationContextProvider from '../contexts/authorization-context'
 
 const AuthenticationRoute = ({component: Component, ...parentProps}) => {
 	const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -17,7 +18,13 @@ const AuthenticationRoute = ({component: Component, ...parentProps}) => {
 		{...parentProps}
 		render = { (props) => (
 			isAuthenticated ?
-				<Component {...props} />
+				<AuthorizationContextProvider>
+					<Router>
+						<div>
+							<AuthorizationRoute path={parentProps.path} component={Component} />
+						</div>
+					</Router>
+				</AuthorizationContextProvider>
 			:
 			<SignUpComponent />
 		)}
