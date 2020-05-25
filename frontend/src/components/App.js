@@ -1,7 +1,5 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-import AuthComponent from './components/authorization'
+import AppContainer from './app-container'
 
 const App = () => {
   return(
@@ -9,7 +7,7 @@ const App = () => {
       <h1>
         Foodhat
       </h1>
-      <AuthComponent/>
+      <AppContainer/>
     </div>
   )
 }

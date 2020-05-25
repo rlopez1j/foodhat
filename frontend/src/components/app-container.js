@@ -1,0 +1,19 @@
+import React from 'react'
+import HomeComponent from './home'
+import AuthenticationRoute from './authentication-route'
+import { BrowserRouter as Router } from 'react-router-dom'
+import AuthenticationContextProvider from '../contexts/authentication-context'
+
+const AppContainer = () => {   
+  return (
+    <AuthenticationContextProvider>
+        <Router>
+          <div>
+            <AuthenticationRoute exact path='/home' component={HomeComponent}/>
+          </div>
+        </Router>
+    </AuthenticationContextProvider>
+  )
+}
+
+export default AppContainer

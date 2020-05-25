@@ -1,17 +1,16 @@
-import React, { useState } from 'react'
-import GoogleSignInCompoment from './google-sign-in'
+import React, { useContext } from 'react'
+import { AuthenticationContext } from '../contexts/authentication-context'
 
-const SignUpComponent = ({ User, successfulLogin }) => {
-    const [LoggedIn, setLoggedIn] = useState(false)
-    const [UserData, setUserData] = useState(null)
+const SignUpComponent = () => {
+  const { login } = useContext(AuthenticationContext)
 
-    setUserData(User) // might need to be in useEffect
-
-    return (
-        <div>
-            <GoogleSignInCompoment User={UserData}/>
-        </div>
-    )
+  return (
+    <div>
+      <button onClick={login}>
+        google
+      </button>
+    </div>
+  )
 }
 
 export default SignUpComponent

@@ -1,33 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { Route } from 'react-router-dom'
 import CreateUsernameComponent from './create-username'
+import useAuthorization from '../contexts/authorization-context'
 
-const AuthorizationComponent = ({ User, authorizeUser }) => {
-  const [CompletedProfile, setCompletedProfile] = useState(false)
-  const [userData, setuserData] = useState(null)
-
-  const checkProfileCompletion = (user) => {
-    if(user.username === null) {
-      setCompletedProfile(false)
-    } else {
-      setCompletedProfile(true)
-    }
-  }
-
-  setuserData(User)
-  checkProfileCompletion(userData) // there might be issues with rendering this
-
-  return (
-    <div>
-      {CompletedProfile ?
-        authorizedUser(userData)
-      :
-        <CreateUsernameComponent
-          User={UserData}
-          authorizeUser={authorizeUser}
-        />
-      }
-    </div>
-  )
+const AuthorizationRoute = () => {
+  return (<div></div>)
 }
-
-export default AuthorizationComponent
+export default AuthorizationRoute
