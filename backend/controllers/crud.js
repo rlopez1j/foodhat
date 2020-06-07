@@ -9,16 +9,16 @@ const verifyToken = (req, res, next) => {
 
   if(typeof bearerHeader !== 'undefined'){
     let token = bearerHeader.split(' ')[1]
-    jwt.verify(token, process.env.JWT_SECRET, (err, data) => {
+    jwt.verify(token, process.env.JWT_ACCESS_SECRET, (err, data) => {
       if(err){
-        res.sendStatus(403)
+        res.sendStatus(401)
       } else {
         req.user = data.user
         next()
       }
     })
   } else {
-    res.sendStatus(403)
+    res.sendStatus(401)
   }
 }
 
@@ -69,7 +69,7 @@ router.put('/set-username', verifyToken, async (req, res)=>{
   let newUsername = await MongooseService.setUsername(req.user._id, req.body.username)
   req.user.username = newUsername
   // create new token with username in it
-  const jwtToken = jwt.sign({ user: req.user }, process.env.JWT_SECRET, {expiresIn: "10d"})
+  const jwtToken = jwt.sign({ user: req.user }, process.env.JWT_ACCESS_SECRET, {expiresIn: "3m"})
   res.json(jwtToken)
 })
 
