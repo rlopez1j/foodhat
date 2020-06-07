@@ -9,7 +9,7 @@ const AppContainer = () => {
     <AuthenticationContextProvider>
         <Router>
           <div>
-            <AuthenticationRoute exact path='/home' component={HomeComponent}/>
+            <AuthenticationRoute exact path='/' component={HomeComponent}/>
           </div>
         </Router>
     </AuthenticationContextProvider>

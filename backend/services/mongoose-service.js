@@ -5,8 +5,9 @@ const User = require('../models/User')
 
 module.exports = {
     findUserByGoogleId: async (id) => {
-        return await UserModel.findOne({ googleProfileId: id})
+        let user = await UserModel.findOne({ googleProfileId: id})
                 .catch(err => console.log('Error!', err))
+        return new User(user)
     },
 
     createNewUser: async (user) => {
