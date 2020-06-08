@@ -3,20 +3,16 @@ const firebase = require('../services/local-firebase-api')
 const notification_hander = require('../services/notifications')
 const MongooseService = require('../services/mongoose-service')
 const jwt = require('jsonwebtoken')
+const JWTService = require('../services/jwt-service')
 
 const verifyToken = (req, res, next) => {
   let bearerHeader = req.headers['authorization']
 
-  if(typeof bearerHeader !== 'undefined'){
-    let token = bearerHeader.split(' ')[1]
-    jwt.verify(token, process.env.JWT_ACCESS_SECRET, (err, data) => {
-      if(err){
-        res.sendStatus(401)
-      } else {
-        req.user = data.user
-        next()
-      }
-    })
+  [valid, user] = JWTService.verifyToken(bearerHeader, process.env.JWT_ACCESS_SECRET)
+
+  if(valid){
+    req.user = user
+    next()
   } else {
     res.sendStatus(401)
   }
@@ -69,7 +65,7 @@ router.put('/set-username', verifyToken, async (req, res)=>{
   let newUsername = await MongooseService.setUsername(req.user._id, req.body.username)
   req.user.username = newUsername
   // create new token with username in it
-  const jwtToken = jwt.sign({ user: req.user }, process.env.JWT_ACCESS_SECRET, {expiresIn: "3m"})
+  const jwtToken = JWTService.setNewToken(user, process.env.JWT_ACCESS_SECRET, '3m')
   res.json(jwtToken)
 })
 

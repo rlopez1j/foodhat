@@ -4,6 +4,7 @@ import SignUpComponent from './signup'
 import AuthorizationRoute from './authorization-route'
 import { AuthenticationContext } from '../contexts/authentication-context'
 import AuthorizationContextProvider from '../contexts/authorization-context'
+import AuthService from '../services/auth-service'
 
 const AuthenticationRoute = ({component: Component, ...parentProps}) => {
 	const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -11,7 +12,11 @@ const AuthenticationRoute = ({component: Component, ...parentProps}) => {
 
 	useEffect(() =>{
     setIsAuthenticated(Authenticated)
-  }, [Authenticated])
+	}, [Authenticated])
+	
+	const login = async (googleToken) => {
+		await AuthService.login(googleToken)
+	}
 
   return (
 		<Route 
@@ -26,7 +31,7 @@ const AuthenticationRoute = ({component: Component, ...parentProps}) => {
 					</Router>
 				</AuthorizationContextProvider>
 			:
-			<SignUpComponent />
+			<SignUpComponent login={login}/>
 		)}
 		/>
   )

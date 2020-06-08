@@ -5,7 +5,7 @@ const cors = require('cors');
 const passport = require('passport');
 const body_parser = require('body-parser');
 const mongoose = require('mongoose')
-const googleAuthController = require('./controllers/auth-controller');
+const authController = require('./controllers/auth-controller');
 const crud = require('./controllers/crud');
 const passportSetup = require('./config/passport-auth')
 
@@ -25,7 +25,7 @@ app.use(passport.initialize());
 app.use(cors({ origin: process.env.FRONTEND_URL }));
 
 // routing
-app.use('/api/authentication', googleAuthController)
+app.use('/api/auth', authController)
 app.use('/api/crud', crud);
 
 // starts the node server

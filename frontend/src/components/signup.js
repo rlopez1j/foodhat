@@ -1,16 +1,27 @@
-import React, { useContext } from 'react'
-import { AuthenticationContext } from '../contexts/authentication-context'
+import React from 'react'
+import GoogleLogin from 'react-google-login'
 
-const SignUpComponent = () => {
-  const { login } = useContext(AuthenticationContext)
+const SignUpComponent = ({ login }) => {
+
+  const successfulAuth = (response) => {
+    const googleToken = response.tokenId
+    login(googleToken)
+  }
+
+  const fail = (response) => {
+    console.log(response)
+  }
 
   return (
-    <div>
-      <button onClick={login}>
-        google
-      </button>
-    </div>
+      <GoogleLogin
+        clientId={process.env.GOOGLE_CLIENT_ID}
+        scope={'https://www.googleapis.com/auth/userinfo.profile'}
+        fetchBasicProfile={false}
+        buttonText="Login"
+        onSuccess={successfulAuth}
+        onFailure={fail}
+      />
   )
-}
+} 
 
 export default SignUpComponent

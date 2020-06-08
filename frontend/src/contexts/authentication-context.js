@@ -7,8 +7,9 @@ const AuthenticationContextProvider = (props) => {
   const [Authenticated, setAuthenticated] = useState(false)
 
   const checkAuthentication = async () => {
+    console.log('ctx is runnning')
     let jwtToken = localStorage.getItem('token')
-    
+
     if(jwtToken) {
       let authenticated = await AuthService.authenticated(jwtToken)
       setAuthenticated(authenticated)
@@ -21,12 +22,8 @@ const AuthenticationContextProvider = (props) => {
     checkAuthentication()
   }, [])
 
-  const login = () => {
-    setAuthenticated(true)
-  }
-
   return(
-    <AuthenticationContext.Provider value={{Authenticated, login}}>
+    <AuthenticationContext.Provider value={{Authenticated}}>
       {props.children}
     </AuthenticationContext.Provider>
   )
