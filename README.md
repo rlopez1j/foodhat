@@ -1,5 +1,5 @@
 # foodhat
-Creating foodhat using node.js, express, angular, and socket.io
+Creating foodhat using node.js, express, React (previuosly angular), and socket.io
 
 
 ## TODO:
