@@ -7,22 +7,28 @@ import AuthorizationContextProvider from '../contexts/authorization-context'
 import AuthService from '../services/auth-service'
 
 const AuthenticationRoute = ({component: Component, ...parentProps}) => {
-	const [isAuthenticated, setIsAuthenticated] = useState(false)
-	const { Authenticated } = useContext(AuthenticationContext)
+//	const [isAuthenticated, setIsAuthenticated] = useState(false)
+	const { Authenticated, changeAuthentication, updateUser } = useContext(AuthenticationContext)
 
-	useEffect(() =>{
-    setIsAuthenticated(Authenticated)
-	}, [Authenticated])
+	// useEffect(() =>{
+  //   setIsAuthenticated(Authenticated)
+	// }, [Authenticated])
 	
 	const login = async (googleToken) => {
-		await AuthService.login(googleToken)
+		let {userData, jwtToken} = await AuthService.login(googleToken)
+
+		if(userData !== null){
+			localStorage.setItem('token', jwtToken)
+			updateUser(userData)
+			changeAuthentication()
+		}
 	}
 
   return (
 		<Route 
 		{...parentProps}
 		render = { (props) => (
-			isAuthenticated ?
+			Authenticated ?
 				<AuthorizationContextProvider>
 					<Router>
 						<div>

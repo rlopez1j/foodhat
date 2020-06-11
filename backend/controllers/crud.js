@@ -5,13 +5,13 @@ const MongooseService = require('../services/mongoose-service')
 const jwt = require('jsonwebtoken')
 const JWTService = require('../services/jwt-service')
 
-const verifyToken = (req, res, next) => {
+const verifyToken = async (req, res, next) => {
   let bearerHeader = req.headers['authorization']
 
-  [valid, user] = JWTService.verifyToken(bearerHeader, process.env.JWT_ACCESS_SECRET)
+  const jwt = await JWTService.verifyToken(bearerHeader, process.env.JWT_ACCESS_SECRET)
 
-  if(valid){
-    req.user = user
+  if(jwt.valid){
+    req.user = jwt.user
     next()
   } else {
     res.sendStatus(401)

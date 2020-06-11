@@ -15,8 +15,6 @@ const SignUpComponent = ({ login }) => {
   return (
       <GoogleLogin
         clientId={process.env.GOOGLE_CLIENT_ID}
-        scope={'https://www.googleapis.com/auth/userinfo.profile'}
-        fetchBasicProfile={false}
         buttonText="Login"
         onSuccess={successfulAuth}
         onFailure={fail}

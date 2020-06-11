@@ -1,16 +1,17 @@
 import HttpService from "./http-service"
+import JWTService from "./jwt-service"
 
 const AuthService = {
   authenticated: async (jwtToken) => {
-    // check token expiry here
-    let { authenticated } = await HttpService.get('auth/check-authentication', {headers: jwtToken})
-    console.log('http serv', authenticated) // 
+    let header = { 'Authorization': jwtToken }
+    let { authenticated } = await HttpService.get('auth/check-authentication', {headers: header})
     return authenticated
   },
   login: async (googleToken) => {
-    let header = { 'Authorization': googleToken}
-    let resp = await HttpService.post('auth/login', {headers: header})
-    console.log('login resp', resp)
+    let header = { 'Authorization': googleToken }
+    let response = await HttpService.post('auth/login', {headers: header, credentials: 'same-origin'})
+    // add token to local storage?
+    return response // might need to mock rn
   },
   authorized: (user) => {},
   createUsername: async () => {},

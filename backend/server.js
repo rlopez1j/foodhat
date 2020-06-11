@@ -8,10 +8,12 @@ const mongoose = require('mongoose')
 const authController = require('./controllers/auth-controller');
 const crud = require('./controllers/crud');
 const passportSetup = require('./config/passport-auth')
+const cookieParser = require('cookie-parser')
 
 // setup the webapp
 var app = express();
 app.use(body_parser.json());
+app.use(cookieParser())
 app.use(express.static('backend')); // sets pwd
 
 mongoose.connect(process.env.MONGO_CONNECTION,
@@ -22,7 +24,7 @@ mongoose.connect(process.env.MONGO_CONNECTION,
 app.use(passport.initialize());
 
 // use cors to allow the angular server to access the api
-app.use(cors({ origin: process.env.FRONTEND_URL }));
+app.use(cors({ credentials: true, origin: process.env.FRONTEND_URL }));
 
 // routing
 app.use('/api/auth', authController)

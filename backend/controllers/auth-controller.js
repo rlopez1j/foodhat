@@ -1,13 +1,15 @@
 const router = require('express').Router()
 const passport = require('passport')
+const {OAuth2Client: OAuth2Client} = require('google-auth-library')
 const JWTService = require('../services/jwt-service')
+const MongooseService = require('../services/mongoose-service')
 
 const verifyRefreshToken = async (req, res, next) => {
-  let bearerHeader = req.headers['authorization']
-  [valid, user] = await JWTService.verifyToken(bearerHeader, process.env.JWT_REFRESH_SECRET)
+  let refreshToken = req.cookies['REFRESH_TOKEN']
+  let jwt = await JWTService.verifyToken(refreshToken, process.env.JWT_REFRSH_SECRET)
 
-  if(valid){
-    req.user = user
+  if(jwt.valid){
+    req.user = jwt.user
     next()
   } else {
     res.sendStatus(401)
@@ -18,13 +20,12 @@ const setNewTokens = (req, res) => {
   const accessToken = JWTService.setNewToken(req.user, process.env.JWT_ACCESS_SECRET, '3m')
   const refreshToken = JWTService.setNewToken(req.user, process.env.JWT_REFRSH_SECRET, '10d')
 
-  res.setHeader('Set-Cookie', `refresh-token=${refreshToken}; HttpOnly`)
-  res.json(accessToken)
+  res.cookie('REFRESH_TOKEN', refreshToken, { httpOnly: true, maxAge: 1_123_000_000 })
+  res.send({accessToken: accessToken})
 }
 
 router.get('/check-authentication', async (req, res) => {
   console.log('checking authentication')
-  console.log('http cookie', req.headers)
   jwt = await JWTService.verifyToken(req.headers['authorization'], process.env.JWT_ACCESS_SECRET)
 
   if(jwt.valid){
@@ -34,13 +35,6 @@ router.get('/check-authentication', async (req, res) => {
   }
 })
 
-// log in with google
-router.get('/oauth',
-  passport.authenticate('google', {
-    session: false, scope: ['profile']
-  })
-)
-
 // this logs out users
 router.get('/logout', (req, res)=>{
   // work in progress
@@ -48,39 +42,46 @@ router.get('/logout', (req, res)=>{
   res.redirect(`${process.env.FRONTEND_URL}/signup`)
 })
 
-/* this handles the callback function from google.
-   tells router what to do once a user is already authenticated
-*/
-router.get('/google-redirect',
-  passport.authenticate('google', {
-    failureRedirect: '/signup',
-    session: false
-  }),
-  (req, res)=>{
-    const refreshToken = JWTService.setNewToken(req.user, process.env.JWT_REFRSH_SECRET, '10d')
-    const accessToken = JWTService.setNewToken(req.user, process.env.JWT_ACCESS_SECRET, '3m')
-
-
-    res.setHeader('Set-Cookie', `refresh-token=${refreshToken}; HttpOnly`)
-    res.redirect(`${process.env.FRONTEND_URL}/int/?token=${accessToken}`)
-    
-    // setNewTokens(req, res)
-})
-
-router.post('/login', (req, res) => {
+router.post('/login', async (req, res) => {
   const googleToken = req.headers['authorization']
-  console.log('gToken', googleToken)
+  console.log('g token', googleToken)
+
   if(typeof googleToken === 'undefined'){
     res.status(401)
   }
-  /**
-   * 1. decode gToken
-   * 2. do the same workflow done in passport config
-   * 3. create jwt tokens
-   * 4. send user obj & token to frontend as a response object of sorts
-   *
-   */
-  res.json('placeholder')
+
+  const oAuthClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID)
+  const ticket = await oAuthClient.verifyIdToken({
+    idToken: googleToken,
+    audience: process.env.GOOGLE_CLIENT_ID
+  })
+  .catch(err => console.log('Error! ', err))
+
+  const googleId = ticket.getUserId()
+  let user = await MongooseService.findUserByGoogleId(googleId)
+
+  if(!user){
+    const googleProfile = ticket.getPayload()
+    user = await MongooseService.createNewUser({
+      googleProfileId: googleId,
+      username: null,
+      displayName: googleProfile.given_name,
+      avi: googleProfile.picture
+    })
+  }
+
+  const refreshToken = JWTService.setNewToken(req.user, process.env.JWT_REFRSH_SECRET, '10d')
+  const accessToken = JWTService.setNewToken(req.user, process.env.JWT_ACCESS_SECRET, '3m')
+
+  console.log('refresh token', refreshToken)
+
+  const response = {
+    userData: user,
+    jwtToken: accessToken
+  }
+
+  res.cookie('REFRESH_TOKEN', refreshToken, { httpOnly: true, maxAge: 1_123_000_000, path: '/' })
+  res.send(response)
 })
 
 router.post('/refresh-token', verifyRefreshToken, (req, res) => {
