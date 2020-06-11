@@ -14,7 +14,7 @@ Creating foodhat using node.js, express, React (previuosly angular), and socket.
 1. see issues page
 
 ### PROGRESS:
-Rebuilding frontend with React
-Switched from Sessions to JWT
-Changed to MogoDB from FireStore
-Added Redis for horizontal scaling and for in-memory data-store. Refactored `hat-socket` by adding supporting services.
+- Rebuilding frontend with React
+- Switched from Sessions to JWT
+- Changed to MogoDB from FireStore
+- Added Redis for horizontal scaling and for in-memory data-store. Refactored `hat-socket` by adding supporting services.
