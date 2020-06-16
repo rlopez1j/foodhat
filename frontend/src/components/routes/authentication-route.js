@@ -1,14 +1,14 @@
 import React, { useState, useContext, useEffect } from 'react'
 import { Route, BrowserRouter as Router } from 'react-router-dom'
-import SignUpComponent from './signup'
-import AuthorizationRoute from './authorization-route'
+import SignUpComponent from '../app/signup'
+import AuthorizationRoute from '../routes/authorization-route'
 import { AuthenticationContext } from '../contexts/authentication-context'
 import AuthorizationContextProvider from '../contexts/authorization-context'
-import AuthService from '../services/auth-service'
+import AuthService from '../../services/auth-service'
 
 const AuthenticationRoute = ({component: Component, ...parentProps}) => {
 //	const [isAuthenticated, setIsAuthenticated] = useState(false)
-	const { Authenticated, changeAuthentication, updateUser } = useContext(AuthenticationContext)
+	const { authenticated, updateUser } = useContext(AuthenticationContext)
 
 	// useEffect(() =>{
   //   setIsAuthenticated(Authenticated)
@@ -20,7 +20,7 @@ const AuthenticationRoute = ({component: Component, ...parentProps}) => {
 		if(userData !== null){
 			localStorage.setItem('token', jwtToken)
 			updateUser(userData)
-			changeAuthentication()
+			//changeAuthentication()
 		}
 	}
 
@@ -28,7 +28,7 @@ const AuthenticationRoute = ({component: Component, ...parentProps}) => {
 		<Route 
 		{...parentProps}
 		render = { (props) => (
-			Authenticated ?
+			authenticated ?
 				<AuthorizationContextProvider>
 					<Router>
 						<div>

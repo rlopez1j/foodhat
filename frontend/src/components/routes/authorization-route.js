@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react'
 import { Route } from 'react-router-dom'
-import CreateUsernameComponent from './create-username'
+import CreateUsernameComponent from '../app/create-username'
 import { AuthorizationContext } from '../contexts/authorization-context'
 
 const AuthorizationRoute = ({component: Component, ...parentProps}) => {

@@ -1,6 +1,6 @@
 import React from 'react'
 import HomeComponent from './home'
-import AuthenticationRoute from './authentication-route'
+import AuthenticationRoute from '../routes/authentication-route'
 import { BrowserRouter as Router } from 'react-router-dom'
 import AuthenticationContextProvider from '../contexts/authentication-context'
 
