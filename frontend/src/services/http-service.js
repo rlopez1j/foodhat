@@ -2,7 +2,7 @@ import Axios from "axios"
 
 const httpCall = async (type, uri, {headers = null, body = null, params = null, credentials = false}) => {
   const url = `${process.env.BACKEND_API}/${uri}`
-  let responseData
+  let responseData = null
 
   await Axios({
     method: type,
@@ -15,7 +15,7 @@ const httpCall = async (type, uri, {headers = null, body = null, params = null, 
   .then((httpResponse) => {
     responseData = httpResponse.data
   })
-  .catch(err => console.log('Error! ', err)) // figure out what to return on err
+  .catch(err => console.log('Error! ', err))
 
   return responseData
 }

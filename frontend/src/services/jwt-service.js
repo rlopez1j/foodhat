@@ -11,9 +11,12 @@ const JWTService = {
     if(tokenExpiry < currentTime){
       // refresh tokens
       let header = {'Access-Control-Allow-Origin': '*'}
-      let { accessToken } = await HttpService.post('auth/refresh-token', {headers: header, credentials: true})
-      jwtToken = accessToken
-      //localStorage.setItem('token', jwtToken)
+      let response = await HttpService.post('auth/refresh-token', {headers: header, credentials: true})
+
+      if(response !== null){
+        jwtToken = response.jwtToken
+        //localStorage.setItem('token', jwtToken)
+      } 
     }
 
     return jwtToken
