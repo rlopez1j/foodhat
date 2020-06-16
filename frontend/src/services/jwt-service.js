@@ -4,6 +4,10 @@ import HttpService from './http-service'
 const JWTService = {
   getToken: async () => {
     let jwtToken = localStorage.getItem('token')
+    
+    if(jwtToken === null)
+      return null
+
     const tokenExpiry = JwtDecode(jwtToken).exp
     // have to turn it to epoch seconds bc that's the format jwt exp sends
     const currentTime = Math.floor(Date.now() / 1000) 
@@ -12,19 +16,14 @@ const JWTService = {
       // refresh tokens
       let header = {'Access-Control-Allow-Origin': '*'}
       let response = await HttpService.post('auth/refresh-token', {headers: header, credentials: true})
-
       if(response !== null){
-        jwtToken = response.jwtToken
-        //localStorage.setItem('token', jwtToken)
+        jwtToken = response.accessToken
+        localStorage.setItem('token', jwtToken)
       } 
     }
-
     return jwtToken
   },
-  existingToken: () => {
-    const token = localStorage.getItem('token')
-    return !(token === null)
-  }
+  setToken: (token) => localStorage.setItem('token', token)
 }
 
 export default JWTService

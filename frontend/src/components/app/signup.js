@@ -1,12 +1,9 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import GoogleLogin from 'react-google-login'
+import { AuthenticationContext } from '../contexts/authentication-context'
 
-const SignUpComponent = ({ login }) => {
-
-  const successfulAuth = (response) => {
-    const googleToken = response.tokenId
-    login(googleToken)
-  }
+const SignUpComponent = () => {
+  const { login } = useContext(AuthenticationContext)
 
   const fail = (response) => {
     console.log(response)
@@ -16,7 +13,7 @@ const SignUpComponent = ({ login }) => {
       <GoogleLogin
         clientId={process.env.GOOGLE_CLIENT_ID}
         buttonText="Login"
-        onSuccess={successfulAuth}
+        onSuccess={login}
         onFailure={fail}
       />
   )
