@@ -20,8 +20,14 @@ const AuthenticationContextProvider = ({children}) => {
     }
   }
 
-  //const changeAuthentication = () => setAuthenticated(true)
-  const updateUser = (user) => setUser(user)
+  const login = async (googleToken) => {
+		let {userData, jwtToken} = await AuthService.login(googleToken)
+
+		if(userData !== null){ // look into refactoring this part
+      localStorage.setItem('token', jwtToken)
+      setUser(userData) // does this cause a new component refresh?
+    }
+  }
 
   useEffect( () =>{
     checkAuthentication()
@@ -31,8 +37,8 @@ const AuthenticationContextProvider = ({children}) => {
     <AuthenticationContext.Provider value={{
       authenticated: !!user,
       User: user,
-      updateUser
-      }}>
+      login
+    }}>
       {children}
     </AuthenticationContext.Provider>
   )
