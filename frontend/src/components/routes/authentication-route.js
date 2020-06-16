@@ -7,17 +7,12 @@ import AuthorizationContextProvider from '../contexts/authorization-context'
 import AuthService from '../../services/auth-service'
 
 const AuthenticationRoute = ({component: Component, ...parentProps}) => {
-//	const [isAuthenticated, setIsAuthenticated] = useState(false)
 	const { authenticated, updateUser } = useContext(AuthenticationContext)
-
-	// useEffect(() =>{
-  //   setIsAuthenticated(Authenticated)
-	// }, [Authenticated])
 	
 	const login = async (googleToken) => {
 		let {userData, jwtToken} = await AuthService.login(googleToken)
 
-		if(userData !== null){
+		if(userData !== null){ // look into refactoring this part
 			localStorage.setItem('token', jwtToken)
 			updateUser(userData)
 			//changeAuthentication()
