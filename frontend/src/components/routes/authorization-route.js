@@ -1,27 +1,22 @@
 import React, { useState, useContext, useEffect } from 'react'
 import { Route } from 'react-router-dom'
-import CreateUsernameComponent from '../app/create-username'
 import { AuthorizationContext } from '../contexts/authorization-context'
+import CreateUsernameContainer from '../app/create-username/create-username-container'
 
 const AuthorizationRoute = ({component: Component, ...parentProps}) => {
-  const [isAuthorized, setIsAuthorized] = useState(false)
-  const { Authorized } = useContext(AuthorizationContext)
-
-  useEffect(() => {
-   setIsAuthorized(Authorized)
-  }, [Authorized])
+  const { authorized } = useContext(AuthorizationContext)
   
-  console.log('authz', parentProps)
-  console.log('authz cx',  isAuthorized)
+  console.log('authz props', parentProps)
+  console.log('autz: ', authorized)
 
   return (
     <Route 
     {...parentProps}
     render = { (props) => (
-      isAuthorized ?
+      authorized ?
       <Component {...props}/>
       :
-      <CreateUsernameComponent />
+      <CreateUsernameContainer />
     )}
     />
   )

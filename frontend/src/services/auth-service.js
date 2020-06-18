@@ -1,5 +1,5 @@
-import HttpService from "./http-service"
-import JWTService from "./jwt-service"
+import HttpService from './http-service'
+import JWTService from './jwt-service'
 
 const AuthService = {
   authenticated: async (jwtToken) => {

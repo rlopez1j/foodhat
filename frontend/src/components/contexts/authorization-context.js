@@ -1,20 +1,24 @@
-import React, { createContext, useState, useEffect } from 'react'
+import React, { createContext, useState, useEffect, useContext } from 'react'
+import { AuthenticationContext } from './authentication-context'
 
 export const AuthorizationContext = createContext()
 
 const AuthorizationContextProvider = (props) => {
-  const [Authorized, setAuthorized] = useState(false)
+  const [authorized, setAuthorized] = useState(false)
+  const { user } = useContext(AuthenticationContext)
 
   useEffect(() => {
-    setAuthorized(false)
-  }, [])
+    if(user.username !== null){
+      setAuthorized(true)
+    }
+  }, [user])
 
   const authorize = () => {
     setAuthorized(true)
   }
   
   return(
-    <AuthorizationContext.Provider value={{Authorized, authorize}}>
+    <AuthorizationContext.Provider value={{authorized, authorize}}>
       {props.children}
     </AuthorizationContext.Provider>
   )

@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 import { Route, BrowserRouter as Router } from 'react-router-dom'
 import SignUpComponent from '../app/signup'
 import AuthorizationRoute from '../routes/authorization-route'

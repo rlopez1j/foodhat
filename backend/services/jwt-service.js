@@ -10,9 +10,9 @@ module.exports = {
       jwt.verify(token, tokenSecret, (err, data) => {
         if(err){
           //console.log('err', err)
-          jwtResponse =  {valid: false, user: null}
+          jwtResponse =  null
         } else {
-          jwtResponse = {valid: true, user: data.user}
+          jwtResponse = data.payload
         }
       })
 
@@ -22,7 +22,7 @@ module.exports = {
     }
   },
 
-  setNewToken: (user, tokenSecret, tokenExpiry) => {
-    return jwt.sign({user: user}, tokenSecret, {expiresIn: tokenExpiry})
+  setNewToken: (payload, tokenSecret, tokenExpiry) => {
+    return jwt.sign({payload: payload}, tokenSecret, {expiresIn: tokenExpiry})
   }
 }

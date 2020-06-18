@@ -4,8 +4,8 @@ const FriendsModel = require('../model-schemas/FriendsModel')
 const User = require('../models/User')
 
 module.exports = {
-    findUserByGoogleId: async (id) => {
-        const userReturned = await UserModel.findOne({ googleProfileId: id})
+    findUserByGoogleId: async (gId) => {
+        const userReturned = await UserModel.findOne({ googleProfileId: gId})
                 .catch(err => console.log('Error!', err))
         return new User(userReturned)
     },
@@ -16,6 +16,12 @@ module.exports = {
 
         await new FriendsModel({ userId: newUser._id }).save()
         return new User(newUser.toObject())
+    },
+
+    findUserById: async (id) => {
+        const userReturned = await UserModel.findOne({ _id: id})
+            .catch(err => console.log('Error!', err))
+        return new User(userReturned)
     },
 
     checkUsernameAvailability: async (username) => {

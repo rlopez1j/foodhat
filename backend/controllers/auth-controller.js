@@ -3,6 +3,7 @@ const passport = require('passport')
 const {OAuth2Client: OAuth2Client} = require('google-auth-library')
 const JWTService = require('../services/jwt-service')
 const MongooseService = require('../services/mongoose-service')
+const mongooseService = require('../services/mongoose-service')
 
 const verifyRefreshToken = async (req, res, next) => {
   let refreshToken = req.cookies['REFRESH_TOKEN']
@@ -26,13 +27,14 @@ const setNewTokens = (req, res) => {
 
 router.get('/check-authentication', async (req, res) => {
   console.log('checking authentication')
-  jwt = await JWTService.verifyToken(req.headers['authorization'], process.env.JWT_ACCESS_SECRET)
+  const userId = await JWTService.verifyToken(req.headers['authorization'], process.env.JWT_ACCESS_SECRET)
 
-  if(jwt.valid){
-    res.send({authenticated: true})
-  } else {
-    res.send({authenticated: false})
+  if(userId === null){
+    res.send(null)
   }
+
+  const user = await mongooseService.findUserById(userId)
+  res.send(user)
 })
 
 // this logs out users
@@ -70,8 +72,8 @@ router.post('/login', async (req, res) => {
     })
   }
 
-  const refreshToken = JWTService.setNewToken(req.user, process.env.JWT_REFRSH_SECRET, '10d')
-  const accessToken = JWTService.setNewToken(req.user, process.env.JWT_ACCESS_SECRET, '3m')
+  const refreshToken = JWTService.setNewToken(user._id, process.env.JWT_REFRSH_SECRET, '10d')
+  const accessToken = JWTService.setNewToken(user._id, process.env.JWT_ACCESS_SECRET, '3m')
 
   console.log('refresh token', refreshToken)
 
