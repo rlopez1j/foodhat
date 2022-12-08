@@ -17,11 +17,11 @@
   },
   "homepage": "https://github.com/rlopez1j/foodhat#readme",
   "dependencies": {
-    "body-parser": "^1.18.3",
+    "body-parser": "^1.20.1",
     "cookie-session": "^2.0.0-beta.3",
     "cors": "^2.8.5",
     "ejs": "^2.6.1",
-    "express": "^4.16.4",
+    "express": "^4.18.2",
     "firebase-admin": "^7.0.0",
     "mongodb": "^3.1.13",
     "mongoose": "^5.4.10",
