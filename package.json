@@ -22,7 +22,7 @@
     "cors": "^2.8.5",
     "ejs": "^2.6.1",
     "express": "^4.16.4",
-    "firebase-admin": "^7.0.0",
+    "firebase-admin": "^11.4.1",
     "mongodb": "^3.1.13",
     "mongoose": "^5.4.10",
     "nodemon": "^1.18.3",
